@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## CodeBeat
 
-<a href="https://codebeat.co/projects/github-com-furkanogutcu-rentacar-frontend-master"><img alt="codebeat badge" src="https://codebeat.co/badges/ecaf32db-e0d4-4935-b6a9-271aa4db1037" /></a>
+[![codebeat badge](https://codebeat.co/badges/ecaf32db-e0d4-4935-b6a9-271aa4db1037)](https://codebeat.co/projects/github-com-furkanogutcu-rentacar-frontend-master)
 
 ## Development server
 

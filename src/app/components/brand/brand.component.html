@@ -1,1 +1,18 @@
-<p>brand works!</p>
+<div *ngIf="dataLoaded==false" class="spinner-border text-success" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
+<table *ngIf="dataLoaded==true" class="table table-dark table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Marka Adı</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let brand of brands">
+      <td>{{ brand.id }}</td>
+      <td>{{ brand.name }}</td>
+    </tr>
+  </tbody>
+</table>

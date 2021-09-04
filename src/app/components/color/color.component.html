@@ -1,1 +1,18 @@
-<p>color works!</p>
+<div *ngIf="dataLoaded==false" class="spinner-border text-success" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
+
+<table *ngIf="dataLoaded==true" class="table table-dark table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Renk Adı</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let color of colors">
+      <td>{{ color.id }}</td>
+      <td>{{ color.name }}</td>
+    </tr>
+  </tbody>
+</table>

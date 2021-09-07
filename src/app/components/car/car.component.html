@@ -1,25 +1,32 @@
-<div *ngIf="dataLoaded==false" class="spinner-border text-success" role="status">
+<div
+  *ngIf="dataLoaded == false"
+  class="spinner-border text-success"
+  role="status"
+>
   <span class="visually-hidden">Loading...</span>
 </div>
-<table *ngIf="dataLoaded==true" class="table table-dark table-striped ">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Marka</th>
-      <th scope="col">Renk</th>
-      <th scope="col">Model Yılı</th>
-      <th scope="col">Günlük Ücret</th>
-      <th scope="col">Açıklama</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let car of cars">
-      <td>{{ car.id }}</td>
-      <td>{{ car.brandName }}</td>
-      <td>{{ car.colorName }}</td>
-      <td>{{ car.modelYear }}</td>
-      <td>{{ car.dailyPrice }}</td>
-      <td>{{ car.description }}</td>
-    </tr>
-  </tbody>
-</table>
+
+<div class="row">
+  <div *ngFor="let car of cars" class="col-lg-4 col-md-6 shadow-lg p-1 mb-3" style="width: 18rem;">
+    <div class="card" style="width: 18rem">
+      <img
+        src="https://images.carandbike.com/car-images/large/volvo/xc90/volvo-xc90.jpg?v=12"
+        class="card-img-top"
+        alt="..."
+      />
+      <div class="card-body">
+        <h5 class="card-title text-center"><strong>{{car.modelYear}} Model {{car.brandName}}</strong></h5><br>
+        <ul class="list-group">
+          <li class="list-group-item text-center"><strong>Marka: </strong> {{car.brandName}}</li>
+          <li class="list-group-item text-center"><strong>Renk: </strong> {{car.colorName}}</li>
+          <li class="list-group-item text-center"><strong>Model: </strong> {{car.modelYear}}</li><br>         
+        </ul>
+        <div class="text-center">
+          <a routerLink="/cars/car-details/{{car.id}}" class="btn btn-primary">İncele</a>
+          -
+          <button onClick="alert('Kiralama işlemi henüz yapılamıyor.')" class="btn btn-success">Kirala</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

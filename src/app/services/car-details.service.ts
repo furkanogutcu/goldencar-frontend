@@ -13,7 +13,6 @@ export class CarDetailsService {
 
   getCarDetails(carId: number): Observable<SingleResponseModel<Car>> {
     let newPath = this.apiUrl + 'cars/getcardetails?carid=' + carId;
-    console.log(newPath)
     return this.httpClient.get<SingleResponseModel<Car>>(newPath);
   }
 }

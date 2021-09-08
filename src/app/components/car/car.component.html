@@ -6,11 +6,13 @@
   <span class="visually-hidden">Loading...</span>
 </div>
 
-<div class="row">
+<div *ngIf="dataLoaded == true" class="row">
   <div *ngFor="let car of cars" class="col-lg-4 col-md-6 shadow-lg p-1 mb-3" style="width: 18rem;">
     <div class="card" style="width: 18rem">
       <img
-        src="https://images.carandbike.com/car-images/large/volvo/xc90/volvo-xc90.jpg?v=12"
+        [src]="getImagePath(car.carImages[0].imagePath)"
+        width="108"
+        height="192"
         class="card-img-top"
         alt="..."
       />

@@ -1,54 +1,58 @@
-<div class="row">
-    <div class="col-md-8">
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="https://images.carandbike.com/car-images/large/volvo/xc90/volvo-xc90.jpg?v=12" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item">
-                <img src="https://media.zigcdn.com/media/model/2019/Sep/volvo-xc90_360x240.jpg" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item">
-                <img src="https://cdni.autocarindia.com/Utils/ImageResizer.ashx?n=http%3A%2F%2Fcms.haymarketindia.net%2Fmodel%2Fuploads%2Fmodelimages%2FXC90ModelImage.jpg&h=300&w=450&q=100" class="d-block w-100" alt="...">
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-    </div>
-
-    <div class="col-md-4">
-        <ul class="list-group">
-            <li class=" list-group-item bg-primary bg-gradient text-light text-center mb-1 rounded ">
-                <strong>Araç Detayları</strong>
-              </li>
-            <li class="list-group-item"><b>Marka: </b>{{currentCar.brandName}}</li>
-            <li class="list-group-item"><b>Renk: </b>{{currentCar.colorName}}</li>
-            <li class="list-group-item"><b>Model yılı: </b>{{currentCar.modelYear}}</li>
-            <li class="list-group-item"><b>Açıklama: </b>{{currentCar.description}}</li>
-            <li class="list-group-item text-center"><button onClick="alert('Kiralama işlemi henüz yapılamıyor.')"  class="btn btn-success" role="button">Kirala ({{currentCar.dailyPrice}} ₺)</button></li>
-        </ul>
-    </div>
-</div>
-<div class="row">
-    <div class="card-header"><h5>Markanın Diğer Araçları</h5></div>
-    <div *ngFor="let subCar of carsOfCurrentBrand" class="card" style="width: 18rem;">
-        <img src="https://images.carandbike.com/car-images/large/volvo/xc90/volvo-xc90.jpg?v=12" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title text-center">{{subCar.modelYear}} Model</h5>
-          <h5 class="card-title text-center">{{subCar.dailyPrice}} ₺</h5>
-          <div class="text-center"><a routerLink="/cars/car-details/{{subCar.id}}" class="btn btn-primary text-center">İncele</a></div>
+<div  *ngIf="dataLoaded == true" class="row">
+  <div class="col-md-8">
+    <div id="CarImagesCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button *ngFor="let carImage of currentCar.carImages; let i = index" type="button"
+          data-bs-target="#CarImagesCarousel" attr.data-bs-slide-to="{{i}}" class="{{(i == 0) ? 'active' : ''}}"
+          attr.aria-label="Slide {{i}}"></button>
+      </div>
+      <div class="carousel-inner">
+        <div *ngFor="let carImage of currentCar.carImages; let i = index"
+          class="{{(i == 0) ? 'carousel-item active' : 'carousel-item' }}">
+          <img [src]="getImagePath(carImage.imagePath)" height="288" class="d-block w-100" alt="...">
         </div>
       </div>
+      <div *ngIf="currentCar.carImages.length != 1">
+        <button class="carousel-control-prev" type="button" data-bs-target="#CarImagesCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#CarImagesCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <ul class="list-group">
+      <li class=" list-group-item bg-primary bg-gradient text-light text-center mb-1 rounded ">
+        <strong>Araç Detayları</strong>
+      </li>
+      <li class="list-group-item"><b>Marka: </b>{{currentCar.brandName}}</li>
+      <li class="list-group-item"><b>Renk: </b>{{currentCar.colorName}}</li>
+      <li class="list-group-item"><b>Model yılı: </b>{{currentCar.modelYear}}</li>
+      <li class="list-group-item"><b>Açıklama: </b>{{currentCar.description}}</li>
+      <li class="list-group-item text-center"><button onClick="alert('Kiralama işlemi henüz yapılamıyor.')"
+          class="btn btn-success" role="button">Kirala ({{currentCar.dailyPrice}} ₺)</button></li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="card-header">
+    <h5>Markanın Diğer Araçları</h5>
+  </div>
+  <div *ngFor="let subCar of carsOfCurrentBrand" class="card" style="width: 18rem;">
+    <div>
+      <img [src]="getImagePath(subCar.carImages[0].imagePath)" height="192" width="108" class="card-img-top" alt="...">
+    </div>
+    <div class="card-body">
+      <h5 class="card-title text-center">{{subCar.modelYear}} Model {{subCar.brandName}}</h5>
+      <h5 class="card-title text-center">{{subCar.dailyPrice}} ₺</h5>
+      <div class="text-center"><a routerLink="/cars/car-details/{{subCar.id}}"
+          class="btn btn-primary text-center">İncele</a></div>
+    </div>
+  </div>
 </div>

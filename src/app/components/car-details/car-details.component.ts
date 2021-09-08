@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Car } from 'src/app/models/entities/car';
-import { CarImage } from 'src/app/models/entities/car-image';
 import { CarDetailsService } from 'src/app/services/car-details.service';
 import { CarImagesService } from 'src/app/services/car-images.service';
 import { CarService } from 'src/app/services/car.service';
@@ -14,7 +13,6 @@ import { CarService } from 'src/app/services/car.service';
 export class CarDetailsComponent implements OnInit {
   currentCar: Car;
   carsOfCurrentBrand: Car[] = [];
-  carImages: CarImage[] = [];
   dataLoaded: boolean = false;
   constructor(
     private carDetailsService: CarDetailsService,
@@ -28,9 +26,6 @@ export class CarDetailsComponent implements OnInit {
       if (params['carid']) {
         this.getCurrentCarDetails(params['carid']).then((res) => {
           this.getCarsOfCurrentBrand();
-          this.getCarImagesById(params['carid']).then((res) => {
-            console.log(this.carImages.length);
-          });
         });
       }
     });
@@ -63,18 +58,7 @@ export class CarDetailsComponent implements OnInit {
       });
   }
 
-  getCarImagesById(carId: number) {
-    return new Promise<void>((resolve, reject) => {
-      console.log('metoda girdi');
-      this.carImageService.getCarImagesById(carId).subscribe((response) => {
-        this.carImages = response.data;
-        console.log(this.carImages.length);
-        resolve();
-      });
-    });
-  }
-
   getImagePath(imagePath:string){
-    return this.carImageService.imagesFolderPath + imagePath
+    return this.carImageService.apiUrl + imagePath
   }
 }

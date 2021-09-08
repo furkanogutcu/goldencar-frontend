@@ -1,3 +1,5 @@
+import { CarImage } from "./car-image";
+
 export interface Car {
   id: number;
   brandId:number;
@@ -7,4 +9,5 @@ export interface Car {
   modelYear: number;
   dailyPrice: number;
   description: string;
+  carImages:CarImage[];
 }

@@ -6,8 +6,38 @@
   <span class="visually-hidden">Loading...</span>
 </div>
 
+<form class="row g-3 bg-dark bg-gradient">
+  <div class="col-2">
+    <select [ngModelOptions]="{standalone: true}" [(ngModel)]="filterBrandId" class="form-select" aria-label="Model adı">
+      <option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}}</option>
+    </select>
+  </div>
+  <div class="col-2">
+    <select [ngModelOptions]="{standalone: true}" [(ngModel)]="filterColorId" class="form-select" aria-label="Renk adı">
+      <option  *ngFor="let color of colors" [value]="color.id">{{color.name}}</option>
+    </select>
+  </div>
+  <div class="col-1">
+    <button (click)="getCarsByFilter(filterBrandId,filterColorId)" type="submit" class="btn btn-primary mb-3">Filtrele</button>
+  </div>
+  <div class="col-1">
+    <button (click)="getCars()" type="submit" class="btn btn-danger mb-3">Temizle</button>
+  </div>  
+  <div class="col-6">
+    <div class="d-flex justify-content-end align-items-center">
+      <div class="col-sm-3 mb-1 text-light">
+        <label>Model Arama: </label>        
+      </div>
+      <div class="mb-1">
+        <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="filterCarModelName" class="form-control" placeholder="Model adı giriniz">        
+      </div>
+    </div>
+  </div>  
+</form>
+<!--<br><div *ngIf="dataLoaded != false" class="alert alert-success">{{cars.length}} araç listelendi!</div>-->
+
 <div *ngIf="dataLoaded == true" class="row">
-  <div *ngFor="let car of cars" class="col-lg-4 col-md-6 shadow-lg p-1 mb-3" style="width: 15rem;">
+  <div *ngFor="let car of cars | filterCarModelPipe:filterCarModelName" class="col-lg-4 col-md-6 shadow-lg p-1 mb-3" style="width: 15rem;">
     <div class="card" style="width: 15rem">
       <img
         [src]="getImagePath(car.carImages[0].imagePath)"
@@ -17,7 +47,7 @@
         alt="..."
       />
       <div class="card-body">
-        <h5 class="card-title text-center"><strong>{{car.modelYear}} Model<br>{{car.brandName}}</strong></h5><br>
+        <h5 class="card-title text-center"><strong>{{car.brandName}} {{car.modelName}}</strong></h5><br>
         <ul class="list-group">
           <li class="list-group-item text-center"><strong>Marka: </strong> {{car.brandName}}</li>
           <li class="list-group-item text-center"><strong>Renk: </strong> {{car.colorName}}</li>

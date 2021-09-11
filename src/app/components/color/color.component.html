@@ -6,6 +6,9 @@
   <li class=" list-group-item bg-dark bg-gradient text-light text-center mb-1 rounded ">
     <strong>Renkler</strong>
   </li>
-  <li (click)="currentColor=null" [class]="getAllColorClass()" routerLink="cars">Tüm renkler</li>
-  <li (click)="setCurrentColor(color)" [class]="getCurrentColorClass(color)" routerLink="cars/color/{{color.id}}" *ngFor="let color of colors">{{color.name}}</li>
+  <div class="mb-1">
+    <input type="text" [(ngModel)]="filterColorText" class="form-control" id="filterColor" placeholder="Renk adı giriniz">
+  </div>
+  <li *ngIf="filterColorText===''"(click)="currentColor=null" [class]="getAllColorClass()" routerLink="cars">Tüm renkler</li>
+  <li (click)="setCurrentColor(color)" [class]="getCurrentColorClass(color)" routerLink="cars/color/{{color.id}}" *ngFor="let color of colors | filterColorPipe:filterColorText">{{color.name}}</li>
 </ul>

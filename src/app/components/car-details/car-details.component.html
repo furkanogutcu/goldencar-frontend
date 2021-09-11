@@ -32,6 +32,7 @@
         <strong>Araç Detayları</strong>
       </li>
       <li class="list-group-item"><b>Marka: </b>{{currentCar.brandName}}</li>
+      <li class="list-group-item"><b>Model: </b>{{currentCar.modelName}}</li>
       <li class="list-group-item"><b>Renk: </b>{{currentCar.colorName}}</li>
       <li class="list-group-item"><b>Model yılı: </b>{{currentCar.modelYear}}</li>
       <li class="list-group-item"><b>Açıklama: </b>{{currentCar.description}}</li>
@@ -49,7 +50,7 @@
       <img [src]="getImagePath(subCar.carImages[0].imagePath)" routerLink="/cars/car-details/{{subCar.id}}" height="192" width="108" class="card-img-top" alt="...">
     </div>
     <div class="card-body">
-      <h5 class="card-title text-center">{{subCar.modelYear}} Model {{subCar.brandName}}</h5>
+      <h5 class="card-title text-center">{{subCar.brandName}} {{subCar.modelName}}</h5>
       <h5 class="card-title text-center">{{subCar.dailyPrice}} ₺</h5>
       <div class="text-center"><a routerLink="/cars/car-details/{{subCar.id}}"
           class="btn btn-primary text-center">İncele</a></div>

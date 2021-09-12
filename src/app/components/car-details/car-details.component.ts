@@ -13,7 +13,7 @@ import { CarService } from 'src/app/services/car.service';
 export class CarDetailsComponent implements OnInit {
   currentCar: Car;
   carsOfCurrentBrand: Car[] = [];
-  dataLoaded: boolean = false;
+  carDataLoaded: boolean = false;
   constructor(
     private carDetailsService: CarDetailsService,
     private carService: CarService,
@@ -35,16 +35,14 @@ export class CarDetailsComponent implements OnInit {
     return new Promise<void>((resolve, reject) => {
       this.carDetailsService.getCarDetails(carId).subscribe((response) => {
         this.currentCar = response.data;
-        this.dataLoaded = true;
+        this.carDataLoaded = true;
         resolve();
       });
     });
   }
 
   getCarsOfCurrentBrand() {
-    this.carService
-      .getCarsByBrandId(this.currentCar.brandId)
-      .subscribe((response) => {
+    this.carService.getCarsByBrandId(this.currentCar.brandId).subscribe((response) => {
         this.carsOfCurrentBrand = response.data;
 
         //Markaya ait diğer araçlar listesinden, mevcut arabayı çıkartıyorum. Mevcut arabayı zaten görüntülüyor.

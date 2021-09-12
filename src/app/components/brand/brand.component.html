@@ -1,8 +1,8 @@
-<div *ngIf="dataLoaded==false" class="spinner-border text-success" role="status">
+<div *ngIf="brandsDataLoaded==false" class="spinner-border text-success" role="status">
   <span class="visually-hidden">Loading...</span>
 </div>
 
-<ul class="list-group">
+<ul *ngIf="brandsDataLoaded==true"class="list-group">
   <li class=" list-group-item bg-dark bg-gradient text-light text-center mb-1 rounded ">
     <strong>Markalar</strong>
   </li>

@@ -1,5 +1,11 @@
-<div  *ngIf="dataLoaded == true" class="row">
+<div *ngIf="carDataLoaded == false" class="spinner-border text-success" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
+
+<div  *ngIf="carDataLoaded == true" class="row">
+  
   <div class="col-md-8">
+    <h1 class="text-center">{{currentCar.brandName}} {{currentCar.modelName}}</h1>
     <div id="CarImagesCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button *ngFor="let carImage of currentCar.carImages; let i = index" type="button"
@@ -41,13 +47,13 @@
     </ul>
   </div>
 </div>
-<div class="row">
+<div *ngIf="carDataLoaded == true" class="row">
   <div class="card-header">
     <h5>Markanın Diğer Araçları</h5>
   </div>
   <div *ngFor="let subCar of carsOfCurrentBrand" class="card" style="width: 18rem;">
     <div>
-      <img [src]="getImagePath(subCar.carImages[0].imagePath)" routerLink="/cars/car-details/{{subCar.id}}" height="192" width="108" class="card-img-top" alt="...">
+      <img [src]="getImagePath(subCar.carImages[0].imagePath)" routerLink="/cars/car-details/{{subCar.id}}" height="168" class="card-img-top" alt="...">
     </div>
     <div class="card-body">
       <h5 class="card-title text-center">{{subCar.brandName}} {{subCar.modelName}}</h5>

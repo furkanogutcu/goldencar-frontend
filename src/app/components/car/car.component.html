@@ -1,18 +1,14 @@
-<div
-  *ngIf="dataLoaded == false"
-  class="spinner-border text-success"
-  role="status"
->
+<div *ngIf="carsDataLoaded == false" class="spinner-border text-success" role="status">
   <span class="visually-hidden">Loading...</span>
 </div>
 
-<form class="row g-3 bg-dark bg-gradient">
-  <div class="col-2">
+<form *ngIf="carsDataLoaded == true" class="row g-3 bg-dark bg-gradient">
+  <div *ngIf="brandsDataLoaded == true" class="col-2">
     <select [ngModelOptions]="{standalone: true}" [(ngModel)]="filterBrandId" class="form-select" aria-label="Model adı">
       <option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}}</option>
     </select>
   </div>
-  <div class="col-2">
+  <div *ngIf="colorsDataLoaded == true" class="col-2">
     <select [ngModelOptions]="{standalone: true}" [(ngModel)]="filterColorId" class="form-select" aria-label="Renk adı">
       <option  *ngFor="let color of colors" [value]="color.id">{{color.name}}</option>
     </select>
@@ -36,8 +32,8 @@
 </form>
 <!--<br><div *ngIf="dataLoaded != false" class="alert alert-success">{{cars.length}} araç listelendi!</div>-->
 
-<div *ngIf="dataLoaded == true" class="row">
-  <div *ngFor="let car of cars | filterCarModelPipe:filterCarModelName" class="col-lg-4 col-md-6 shadow-lg p-1 mb-3" style="width: 15rem;">
+<div *ngIf="carsDataLoaded == true" class="row">
+  <div *ngFor="let car of cars | filterCarModelPipe:filterCarModelName" class="col-lg-4 col-md-6 shadow-lg p-1 mb-3" style="width: 15.4rem;">
     <div class="card" style="width: 15rem">
       <img
         [src]="getImagePath(car.carImages[0].imagePath)"
@@ -49,9 +45,9 @@
       <div class="card-body">
         <h5 class="card-title text-center"><strong>{{car.brandName}} {{car.modelName}}</strong></h5><br>
         <ul class="list-group">
-          <li class="list-group-item text-center"><strong>Marka: </strong> {{car.brandName}}</li>
-          <li class="list-group-item text-center"><strong>Renk: </strong> {{car.colorName}}</li>
-          <li class="list-group-item text-center"><strong>Model: </strong> {{car.modelYear}}</li><br>         
+          <li class="list-group-item text-center bg-light"><strong>Marka: </strong> {{car.brandName}}</li>
+          <li class="list-group-item text-center bg-light"><strong>Renk: </strong> {{car.colorName}}</li>
+          <li class="list-group-item text-center bg-light"><strong>Model: </strong> {{car.modelYear}}</li><br>         
         </ul>
         <div class="text-center">
           <a routerLink="/cars/car-details/{{car.id}}" class="btn btn-primary">İncele</a>

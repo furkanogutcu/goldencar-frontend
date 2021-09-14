@@ -2,8 +2,89 @@
   <span class="visually-hidden">Loading...</span>
 </div>
 
-<div  *ngIf="carDataLoaded == true" class="row">
-  
+<!-- Modal -->
+<div *ngIf="carDataLoaded" class="modal fade" id="araciSepeteEkle" tabindex="-1" aria-labelledby="araciSepeteEkleBaslik"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="araciSepeteEkleBaslik">Aracı Sepete Ekle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form>
+        <div class="modal-body">
+          <div class="row ">
+            <div class="col-md-5 d-flex align-items-center border border-gray">
+              <img [src]="getImagePath(currentCar.carImages[0].imagePath)" height="120" class="d-block w-100" alt="...">
+            </div>
+
+            <div class="col-md-7">
+              <div class="card text-center" style="width: 16.5rem;">
+                <div class="card-body">
+                  <h3 class="card-title">{{currentCar.brandName}} {{currentCar.modelName}}</h3>
+                  <h5 class="card-subtitle mb-2 text-muted">Ödenecek Tutar</h5>
+                  <h4><strong>
+                      <p *ngIf="rentalPeriod && validateRentalDates===true" class="card-text text-success">
+                        {{currentCar.dailyPrice * rentalPeriod |
+                        currency:"":""}}₺</p>
+                    </strong></h4>
+                </div>
+              </div>
+            </div>
+          </div><br>
+
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label text-center"><strong>Kiralama Tarihi: </strong></label>
+            <div class="col-sm-8"><input [(ngModel)]="rentDate"
+                (ngModelChange)="validateReservationDates(rentDate,returnDate)"
+                (ngModelChange)="checkIfAnyReservationsBetweenSelectedDates(currentCar.id, rentDate, returnDate)"
+                (ngModelChange)="calculateRentalPeriod()" name="rentnDate" onkeydown="return false" type="date"
+                [min]="getDateNow()" class="form-control"></div>
+          </div>
+          <div *ngIf="rentDate" class="form-group row">
+            <label class="col-sm-4 col-form-label text-center"><strong>Teslim Tarihi: </strong></label>
+            <div class="col-sm-8"><input [(ngModel)]="returnDate"
+                (ngModelChange)="validateReservationDates(rentDate,returnDate)"
+                (ngModelChange)="checkIfAnyReservationsBetweenSelectedDates(currentCar.id, rentDate, returnDate)"
+                (ngModelChange)="calculateRentalPeriod()" name="returnDate" onkeydown="return false" type="date"
+                [min]="addDayToDate(convertStringToDate(rentDate),1)" class="form-control"></div>
+          </div>
+        </div>
+      </form>
+
+
+      <div *ngIf="rentalConfirmation && validateRentalDates===true">
+        <div *ngIf="rentalConfirmation.data==false ">
+          <div *ngIf="rentalPeriod" class="alert alert-danger text-center" role="alert">
+            Araç için seçili tarihler arasında başka bir rezervasyon mevcut
+          </div>
+
+        </div>
+        <div *ngIf="rentalConfirmation.data==true">
+          <div *ngIf="rentalPeriod" class="alert alert-success text-center" role="alert">
+            <div>Araç <strong>{{rentalPeriod}}</strong> günlüğüne kiralanıyor</div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="rentDate && returnDate && validateRentalDates!==true">
+        <div class="alert alert-danger text-center" role="alert">
+          <div>Teslim tarihi, kiralama tarihinden büyük olmalıdır!</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div *ngIf="rentalConfirmation && validateRentalDates===true">
+          <button *ngIf="rentalConfirmation.data==true" type="button" class="btn btn-success"
+            data-bs-primary="modal">Sepete Ekle</button>
+        </div>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">İptal</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+
+<div *ngIf="carDataLoaded == true" class="row">
   <div class="col-md-8">
     <h1 class="text-center">{{currentCar.brandName}} {{currentCar.modelName}}</h1>
     <div id="CarImagesCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -42,8 +123,9 @@
       <li class="list-group-item"><b>Renk: </b>{{currentCar.colorName}}</li>
       <li class="list-group-item"><b>Model yılı: </b>{{currentCar.modelYear}}</li>
       <li class="list-group-item"><b>Açıklama: </b>{{currentCar.description}}</li>
-      <li class="list-group-item text-center"><button onClick="alert('Kiralama işlemi henüz yapılamıyor.')"
-          class="btn btn-success" role="button">Kirala ({{currentCar.dailyPrice}} ₺)</button></li>
+      <li class="list-group-item"><b>Günlük Ücreti: </b>{{currentCar.dailyPrice}} ₺</li>
+      <li class="list-group-item text-center"><button class="btn btn-success" role="button" data-bs-toggle="modal"
+          data-bs-target="#araciSepeteEkle">Kirala ({{currentCar.dailyPrice}} ₺)</button></li>
     </ul>
   </div>
 </div>
@@ -53,7 +135,8 @@
   </div>
   <div *ngFor="let subCar of carsOfCurrentBrand" class="card" style="width: 18rem;">
     <div>
-      <img [src]="getImagePath(subCar.carImages[0].imagePath)" routerLink="/cars/car-details/{{subCar.id}}" height="168" class="card-img-top" alt="...">
+      <img [src]="getImagePath(subCar.carImages[0].imagePath)" routerLink="/cars/car-details/{{subCar.id}}" height="168"
+        class="card-img-top" alt="...">
     </div>
     <div class="card-body">
       <h5 class="card-title text-center">{{subCar.brandName}} {{subCar.modelName}}</h5>

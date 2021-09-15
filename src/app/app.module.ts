@@ -17,6 +17,8 @@ import { CarDetailsComponent } from './components/car-details/car-details.compon
 import { FilterBrandPipePipe } from './pipes/filter-brand-pipe.pipe';
 import { FilterColorPipePipe } from './pipes/filter-color-pipe.pipe';
 import { FilterCarModelPipePipe } from './pipes/filter-car-model-pipe.pipe';
+import { CartSummaryComponent } from './components/cart-summary/cart-summary.component';
+import { CartComponent } from './components/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { FilterCarModelPipePipe } from './pipes/filter-car-model-pipe.pipe';
     CarDetailsComponent,
     FilterBrandPipePipe,
     FilterColorPipePipe,
-    FilterCarModelPipePipe
+    FilterCarModelPipePipe,
+    CartSummaryComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,7 @@ import { FilterCarModelPipePipe } from './pipes/filter-car-model-pipe.pipe';
     FormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      positionClass:"toast-bottom-right"
+      positionClass: "toast-bottom-right"
     })
   ],
   providers: [],

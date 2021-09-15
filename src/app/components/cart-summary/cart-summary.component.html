@@ -1,0 +1,69 @@
+<li class="nav-item">
+    <div class="btn-group">
+        <button class="btn btn-warning rounded" style="width: 120px;" type="button" id="dropdownMenu2"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Sepetim <strong>({{cartItems.length}})</strong>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow" style="min-width: 300px; max-width: 400px;"
+            aria-labelledby="dropdownMenu2">
+            <li>
+                <h6 class="dropdown-header">Sepetim ({{cartItems.length}} araç)</h6>
+            </li>
+            <div *ngIf="cartItems.length!==0">
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+
+                <li *ngFor="let cartItem of cartItems">
+                    <div class="container" routerLink="/cars/car-details/{{cartItem.car.id}}">
+                        <div class="card">
+                            <div style="display: flex; flex: 1 1 auto;">
+                                <div class="d-flex align-items-center">
+                                    <img class="" [src]="getImagePath(cartItem.car.carImages[0].imagePath)" height="100"
+                                        width="150" alt="...">
+                                </div>
+                                <div class="card-body" style="min-width: 200px; max-width: 300px;">
+                                    <h6 class="card-title">{{cartItem.car.brandName}} {{cartItem.car.modelName}}</h6>
+
+                                    <div class="row">
+                                        <p class="card-text">
+                                            <small class="text-muted">{{showDate(cartItem.rentDate)}} -
+                                                {{showDate(cartItem.returnDate)}}<br>
+                                                ({{getRentalPeriod(cartItem.rentDate,cartItem.returnDate)}} gün
+                                                kiralanıyor)</small>
+                                        </p>
+                                    </div>
+                                    <div class="row d-flex justify-content-end align-items-center">
+                                        <div class="col-md-7">
+                                            <p class="card-text text-danger">
+                                                <strong>{{cartItem.car.dailyPrice *
+                                                    getRentalPeriod(cartItem.rentDate,cartItem.returnDate) |
+                                                    currency:"":""}}₺</strong>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="text-end">
+                                                <button type="button" (click)="removeFromCart(cartItem.car)"
+                                                    class="btn btn-danger btn-sm">Sil</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <span class="d-flex flex-column">
+                        <button routerLink="cart" class="btn btn-outline-success text-center"
+                            type="button"><strong>SEPETE GİT</strong></button>
+                    </span>
+                </li>
+            </div>
+        </ul>
+    </div>
+</li>

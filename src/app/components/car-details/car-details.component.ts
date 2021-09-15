@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Car } from 'src/app/models/entities/car';
+import { Result } from 'src/app/models/results/result';
 import { SingleResponseModel } from 'src/app/models/responseModels/singleResponseModel';
 import { CarDetailsService } from 'src/app/services/car-details.service';
 import { CarImagesService } from 'src/app/services/car-images.service';
 import { CarService } from 'src/app/services/car.service';
+import { CartService } from 'src/app/services/cart.service';
+import { DateTimeService } from 'src/app/services/date-time.service';
 import { RentalService } from 'src/app/services/rental.service';
 
 @Component({
@@ -29,7 +33,10 @@ export class CarDetailsComponent implements OnInit {
     private carService: CarService,
     private carImageService: CarImagesService,
     private activatedRoute: ActivatedRoute,
-    private rentalService: RentalService
+    private rentalService: RentalService,
+    private dateTimeService: DateTimeService,
+    private cartService: CartService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +47,15 @@ export class CarDetailsComponent implements OnInit {
         });
       }
     });
+  }
+
+  addToCart(car: Car, rentDate: Date, returnDate: Date) {
+    let result:Result = this.cartService.addToCart(car, rentDate, returnDate);
+    if(result.success){
+      this.toastrService.success(result.message, car.brandName + " " + car.modelName)
+    }else{
+      this.toastrService.error(result.message, car.brandName + " " + car.modelName)
+    }    
   }
 
   checkIfAnyReservationsBetweenSelectedDates(carId: number, rentDate: string, returnDate: string) {
@@ -78,30 +94,23 @@ export class CarDetailsComponent implements OnInit {
   }
 
   addDayToDate(date: Date, addedDay: number) {
-    let newDate = date;
-    newDate.setDate(date.getDate() + addedDay);
-    let returnString = this.formatDate(newDate);
-    return returnString;
+    return this.dateTimeService.addDayToDate(date, addedDay);
   }
 
   convertStringToDate(dateString: string) {
-    return new Date(dateString);
+    return this.dateTimeService.convertStringToDate(dateString);
   }
 
   getRentalPeriod(rentDate: Date, returnDate: Date): number {
-    let hours = Math.abs(returnDate.getTime() - rentDate.getTime());
-    let days = Math.ceil(hours / (1000 * 3600 * 24));
-    return days;
+    return this.dateTimeService.getRentalPeriod(rentDate, returnDate);
   }
 
   getDateNow() {
-    let date = new Date();
-    let returnStr = this.formatDate(date);
-    return returnStr;
+    return this.dateTimeService.getDateNow();
   }
 
   formatDate(date: Date) {
-    return date.toLocaleDateString().split(".").reverse().join("-");
+    return this.dateTimeService.formatDate(date);
   }
 
   getCurrentCarDetails(carId: number) {

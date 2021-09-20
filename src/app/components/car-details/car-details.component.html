@@ -14,20 +14,23 @@
       <form>
         <div class="modal-body">
           <div class="row ">
-            <div class="col-md-5 d-flex align-items-center border border-gray">
+            <div class="col-md-5 d-flex align-items-center">
               <img [src]="getImagePath(currentCar.carImages[0].imagePath)" height="120" class="d-block w-100" alt="...">
             </div>
 
             <div class="col-md-7">
-              <div class="card text-center" style="width: 16.5rem;">
+              <div class="text-center" style="width: 16.5rem;">
                 <div class="card-body">
                   <h3 class="card-title">{{currentCar.brandName}} {{currentCar.modelName}}</h3>
                   <h5 class="card-subtitle mb-2 text-muted">Ödenecek Tutar</h5>
                   <h4><strong>
-                      <p *ngIf="rentalPeriod && validateRentalDates===true" class="card-text text-success">
+                    <div *ngIf="rentalPeriod && validateRentalDates===true && rentalConfirmation">
+                      <p *ngIf="rentalConfirmation.data===true" class="card-text text-success">
                         {{currentCar.dailyPrice * rentalPeriod |
                         currency:"":""}}₺</p>
+                      </div>
                     </strong></h4>
+                    
                 </div>
               </div>
             </div>
@@ -50,17 +53,22 @@
                 [min]="addDayToDate(convertStringToDate(rentDate),1)" class="form-control"></div>
           </div>
         </div>
-      </form>
+      </form>      
 
+      
 
       <div *ngIf="rentalConfirmation && validateRentalDates===true">
-        <div *ngIf="rentalConfirmation.data==false ">
+        <div *ngIf="rentalConfirmation.data===false && (convertStringToDate(rentDate) > convertStringToDate(getDateNow()))">
           <div *ngIf="rentalPeriod" class="alert alert-danger text-center" role="alert">
             Araç için seçili tarihler arasında başka bir rezervasyon mevcut
           </div>
-
+        </div>       
+        <div *ngIf="rentalConfirmation.data===false && (convertStringToDate(rentDate) <= convertStringToDate(getDateNow()))">
+          <div *ngIf="rentalPeriod" class="alert alert-danger text-center" role="alert">
+            Araç daha önce kiralanmış
+          </div>
         </div>
-        <div *ngIf="rentalConfirmation.data==true">
+        <div *ngIf="rentalConfirmation.data===true">
           <div *ngIf="rentalPeriod" class="alert alert-success text-center" role="alert">
             <div>Araç <strong>{{rentalPeriod}}</strong> günlüğüne kiralanıyor</div>
           </div>
@@ -128,12 +136,12 @@
           data-bs-target="#araciSepeteEkle">Kirala ({{currentCar.dailyPrice}} ₺)</button></li>
     </ul>
   </div>
-</div>
+</div><br><br><br>
 <div *ngIf="carDataLoaded == true" class="row">
   <div class="card-header">
     <h5>Markanın Diğer Araçları</h5>
   </div>
-  <div *ngFor="let subCar of carsOfCurrentBrand" class="card" style="width: 18rem;">
+  <div *ngFor="let subCar of carsOfCurrentBrand" class="card border border-light" style="width: 18rem;">
     <div>
       <img [src]="getImagePath(subCar.carImages[0].imagePath)" routerLink="/cars/car-details/{{subCar.id}}" height="168"
         class="card-img-top" alt="...">

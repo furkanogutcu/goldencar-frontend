@@ -36,6 +36,15 @@ export class CartService {
     }
   }
 
+  clearCart(): Result {
+    CartItems.length = 0;
+    if (CartItems.length === 0) {      
+      return new SuccessResult("Sepet temizlendi");
+    } else {
+      return new ErrorResult("Sepet temizlenirken bir hata oluştu");
+    }
+  }
+
   listOfCart(): CartItem[] {
     return CartItems;
   }

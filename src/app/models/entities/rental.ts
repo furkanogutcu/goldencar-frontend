@@ -1,4 +1,4 @@
-export interface Rental {
+export class Rental {
   id: number;
   carId:number;
   modelFullName: string;
@@ -7,5 +7,7 @@ export interface Rental {
   dailyPrice: number;
   rentDate: Date;
   returnDate: Date;
+  paymentId:number;
+  paymentDate:Date;
   deliveryStatus:boolean;
 }

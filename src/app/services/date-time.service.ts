@@ -24,6 +24,17 @@ export class DateTimeService {
     return returnStr;
   }
 
+  getTimeNow():string{
+    let date = new Date();
+    return date.toLocaleTimeString();
+  }
+
+  getFullDateTimeNow():string{
+    let date = new Date();
+    let returnStr = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+    return returnStr;
+  }
+
   getRentalPeriod(rentDate: Date, returnDate: Date): number {
     let hours = Math.abs(returnDate.getTime() - rentDate.getTime());
     let days = Math.ceil(hours / (1000 * 3600 * 24));

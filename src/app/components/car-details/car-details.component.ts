@@ -49,19 +49,19 @@ export class CarDetailsComponent implements OnInit {
           this.isCarCanBeRentedNow = false;
           this.rentalPeriod = undefined!;
           this.validateRentalDates = false;
-          this.rentalConfirmation =undefined!;
+          this.rentalConfirmation = undefined!;
         });
       }
     });
   }
 
   addToCart(car: Car, rentDate: Date, returnDate: Date) {
-    let result:Result = this.cartService.addToCart(car, rentDate, returnDate);
-    if(result.success){
+    let result: Result = this.cartService.addToCart(car, rentDate, returnDate);
+    if (result.success) {
       this.toastrService.success(result.message, car.brandName + " " + car.modelName)
-    }else{
+    } else {
       this.toastrService.error(result.message, car.brandName + " " + car.modelName)
-    }    
+    }
   }
 
   checkIfAnyReservationsBetweenSelectedDates(carId: number, rentDate: string, returnDate: string) {
@@ -72,7 +72,7 @@ export class CarDetailsComponent implements OnInit {
     if (this.validateRentalDates === true) {
       this.rentalService.checkIfCanCarBeRentedBetweenSelectedDates(carId, rentDate, returnDate).subscribe(response => {
         this.rentalConfirmation = response;
-      },error=>{
+      }, error => {
         this.rentalConfirmation = error.error;
       })
     }
@@ -147,6 +147,6 @@ export class CarDetailsComponent implements OnInit {
   }
 
   getImagePath(imagePath: string) {
-    return this.carImageService.apiUrl + imagePath
+    return this.carImageService.getImagePath(imagePath)
   }
 }

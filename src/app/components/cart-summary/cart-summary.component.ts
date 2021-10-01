@@ -23,12 +23,12 @@ export class CartSummaryComponent implements OnInit {
   }
 
   removeFromCart(car: Car) {
-    let result:Result = this.cartService.removeFromCart(car);
-    if(result.success){
+    let result: Result = this.cartService.removeFromCart(car);
+    if (result.success) {
       this.toastrService.success(result.message, car.brandName + " " + car.modelName)
-    }else{
+    } else {
       this.toastrService.error(result.message, car.brandName + " " + car.modelName)
-    }    
+    }
   }
 
   getCart() {
@@ -43,11 +43,11 @@ export class CartSummaryComponent implements OnInit {
     return this.dateTimeService.formatDate(date);
   }
 
-  showDate(date:Date){
+  showDate(date: Date) {
     return this.dateTimeService.showDate(date);
   }
 
   getImagePath(imagePath: string) {
-    return this.carImageService.apiUrl + imagePath
+    return this.carImageService.getImagePath(imagePath)
   }
 }

@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="">Rent a Car</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -10,11 +11,24 @@
           <a class="nav-link active" aria-current="page" routerLink="">Ana Sayfa</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/cars">Araba Listesi</a>
+          <a class="nav-link active" routerLink="/cars">Araba Listesi</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link active dropdown-toggle" id="managerDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            YÖNETİM
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" routerLink="/brand/manager">Markaları Yönet</a></li>
+            <li><a class="dropdown-item" routerLink="/color/manager">Renkleri Yönet</a></li>
+            <li><a class="dropdown-item" routerLink="/car/manager">Araçları Yönet</a></li>
+          </ul>
         </li>
       </ul>
     </div>
   </div>
-  <ul class="navbar-nav me-auto mb-2 mb-lg-0"><app-cart-summary></app-cart-summary></ul>
+  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <app-cart-summary></app-cart-summary>
+  </ul>
   <ul></ul>
 </nav>

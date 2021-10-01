@@ -6,6 +6,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskModule } from 'ngx-mask';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgxSpinnerModule } from "ngx-spinner";
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +22,18 @@ import { FilterColorPipePipe } from './pipes/filter-color-pipe.pipe';
 import { FilterCarModelPipePipe } from './pipes/filter-car-model-pipe.pipe';
 import { CartSummaryComponent } from './components/cart-summary/cart-summary.component';
 import { CartComponent } from './components/cart/cart.component';
+import { BrandAddComponent } from './components/brand-add/brand-add.component';
+import { BrandUpdateComponent } from './components/brand-update/brand-update.component';
+import { BrandDeleteComponent } from './components/brand-delete/brand-delete.component';
+import { BrandManagerComponent } from './components/brand-manager/brand-manager.component';
+import { ColorAddComponent } from './components/color-add/color-add.component';
+import { ColorDeleteComponent } from './components/color-delete/color-delete.component';
+import { ColorUpdateComponent } from './components/color-update/color-update.component';
+import { ColorManagerComponent } from './components/color-manager/color-manager.component';
+import { CarAddComponent } from './components/car-add/car-add.component';
+import { CarDeleteComponent } from './components/car-delete/car-delete.component';
+import { CarUpdateComponent } from './components/car-update/car-update.component';
+import { CarManagerComponent } from './components/car-manager/car-manager.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +48,20 @@ import { CartComponent } from './components/cart/cart.component';
     FilterBrandPipePipe,
     FilterColorPipePipe,
     FilterCarModelPipePipe,
-    CartSummaryComponent,
-    CartComponent
+    CartSummaryComponent,    
+    CartComponent,
+    BrandAddComponent,
+    BrandUpdateComponent,
+    BrandDeleteComponent,
+    BrandManagerComponent,
+    ColorAddComponent,
+    ColorDeleteComponent,
+    ColorUpdateComponent,
+    ColorManagerComponent,
+    CarAddComponent,
+    CarDeleteComponent,
+    CarUpdateComponent,
+    CarManagerComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +71,7 @@ import { CartComponent } from './components/cart/cart.component';
     ReactiveFormsModule,
     NgxMaskModule.forRoot(),  
     BrowserAnimationsModule,
+    MatDialogModule,
     NgxSpinnerModule,
     ToastrModule.forRoot({
       positionClass: "toast-bottom-right"

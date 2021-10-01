@@ -1,0 +1,49 @@
+<div *ngIf="deletedCar" class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <h5>{{deletedCar.brandName}} {{deletedCar.modelName}} Aracını Sil</h5>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="text-center">
+                            <img [src]="getImagePath(deletedCar.carImages[0].imagePath)" height="200">
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <ul class="list-group list-group-horizontal d-flex">
+                            <li class="list-group-item flex-fill">
+                                <strong><ins>Marka</ins></strong><br>{{deletedCar.brandName}}</li>
+                            <li class="list-group-item flex-fill">
+                                <strong><ins>Model</ins></strong><br>{{deletedCar.modelName}}</li>
+                            <li class="list-group-item flex-fill">
+                                <strong><ins>Renk</ins></strong><br>{{deletedCar.colorName}}</li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal d-flex">
+                            <li class="list-group-item flex-fill"><strong><ins>Model
+                                        Yılı</ins></strong><br>{{deletedCar.modelYear}}</li>
+                            <li class="list-group-item flex-fill"><strong><ins>Günlük
+                                        Ücreti</ins></strong><br>{{deletedCar.dailyPrice}} ₺</li>
+                            <li class="list-group-item flex-fill">
+                                <strong><ins>Açıklama</ins></strong><br>{{deletedCar.description}}</li>
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div><br>
+        <strong>{{deletedCar.id}}</strong> id değerine sahip <strong>{{deletedCar.brandName}}
+            {{deletedCar.modelName}}</strong> aracını silmek istediğinizden emin misiniz?
+        <div class="row mt-3">
+            <div class="d-flex justify-content-end">
+                <button (click)="delete(deletedCar)" type="button" class="btn btn-success me-2">Sil</button>
+                <button (click)="closeCarDeleteModal()" type="button" class="btn btn-danger">İptal</button>
+            </div>
+        </div>
+    </div>
+</div>

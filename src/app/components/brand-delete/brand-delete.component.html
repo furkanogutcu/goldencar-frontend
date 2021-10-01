@@ -1,0 +1,17 @@
+<div *ngIf="deletedBrand" class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <h5>{{deletedBrand.name}} Markasını Sil</h5>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <strong>{{deletedBrand.id}}</strong> id değerine sahip <strong>{{deletedBrand.name}}</strong> markasını silmek istediğinizden emin misiniz?
+        <div class="row mt-3">
+            <div class="d-flex justify-content-end">
+                <button (click)="delete(deletedBrand)" type="button" class="btn btn-success me-2">Sil</button>
+                <button (click)="closeBrandDeleteModal()" type="button" class="btn btn-danger">İptal</button>
+            </div>
+        </div>
+    </div>
+</div>

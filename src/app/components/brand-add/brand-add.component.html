@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <h5>Marka ekle</h5>
+        </div>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="brandAddForm">
+            <div class="align-items-center">
+                <div class="form-group">
+                    <input type="text" id="brandName" formControlName="name" class="form-control"
+                        placeholder="Marka adı" />
+                </div>
+            </div>
+        </form>
+        <div class="row mt-3">
+            <div class="d-flex justify-content-end">
+                <button (click)="add()" type="button" class="btn btn-success me-2">Ekle</button>
+                <button (click)="closeBrandAddModal()" type="button" class="btn btn-danger">İptal</button>
+            </div>
+        </div>
+    </div>
+</div>

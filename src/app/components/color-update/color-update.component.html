@@ -1,0 +1,45 @@
+<div *ngIf="currentColor && colorUpdateForm">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h5>{{currentColor.name}} Rengini Güncelle</h5>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <strong>ID:</strong>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control text-center" [placeholder]="currentColor.id" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <strong class="float-end"><label for="colorName">Renk Adı:</label></strong>
+                        </div>
+                        <div class="col-md-8">
+                            <form [formGroup]="colorUpdateForm">
+                                <div class="align-items-center">
+                                    <input type="text" id="colorName" formControlName="name" class="form-control"
+                                        [placeholder]="currentColor.name" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-footer mt-1">
+            <div class="d-flex justify-content-end">
+                <button (click)="update()" type="button" class="btn btn-success me-3">Güncelle</button>
+                <button (click)="closeColorUpdateModal()" type="button" class="btn btn-danger">İptal</button>
+            </div>
+        </div>
+    </div>
+</div>

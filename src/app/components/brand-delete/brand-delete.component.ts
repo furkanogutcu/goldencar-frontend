@@ -26,7 +26,7 @@ export class BrandDeleteComponent implements OnInit {
       this.toastrService.success(brand.name + " markası silindi", "Silme işlemi başarılı")
       this.closeBrandDeleteModal();
     }, errorResponse => {
-      this.toastrService.error(errorResponse.error.Message, "Silme işlemi başarısız")
+      this.toastrService.error(errorResponse.error.message, "Silme işlemi başarısız")
     })
   }
 

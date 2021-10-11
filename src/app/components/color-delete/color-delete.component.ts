@@ -21,12 +21,11 @@ export class ColorDeleteComponent implements OnInit {
   }
 
   delete(color: Color) {
-    console.log(color)
     this.colorService.delete(color).subscribe(response => {
       this.toastrService.success(color.name + " rengi silindi", "Silme işlemi başarılı")
       this.closeColorDeleteModal();
     }, errorResponse => {
-      this.toastrService.error(errorResponse.error.Message, "Silme işlemi başarısız")
+      this.toastrService.error(errorResponse.error.message, "Silme işlemi başarısız")
     })
   }
 

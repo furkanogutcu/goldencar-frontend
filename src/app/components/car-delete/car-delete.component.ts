@@ -27,7 +27,7 @@ export class CarDeleteComponent implements OnInit {
       this.toastrService.success(car.brandName + " " + car.modelName + " aracı silindi", "Silme işlemi başarılı");
       this.closeCarDeleteModal();
     }, errorResponse => {
-      this.toastrService.error(errorResponse.error.Message, "Silme işlemi başarısız");
+      this.toastrService.error(errorResponse.error.message, "Silme işlemi başarısız");
     })
   }
 

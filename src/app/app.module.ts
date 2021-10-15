@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskModule } from 'ngx-mask';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgxSpinnerModule } from "ngx-spinner";
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +34,11 @@ import { CarAddComponent } from './components/car-add/car-add.component';
 import { CarDeleteComponent } from './components/car-delete/car-delete.component';
 import { CarUpdateComponent } from './components/car-update/car-update.component';
 import { CarManagerComponent } from './components/car-manager/car-manager.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +53,7 @@ import { CarManagerComponent } from './components/car-manager/car-manager.compon
     FilterBrandPipePipe,
     FilterColorPipePipe,
     FilterCarModelPipePipe,
-    CartSummaryComponent,    
+    CartSummaryComponent,
     CartComponent,
     BrandAddComponent,
     BrandUpdateComponent,
@@ -61,7 +66,10 @@ import { CarManagerComponent } from './components/car-manager/car-manager.compon
     CarAddComponent,
     CarDeleteComponent,
     CarUpdateComponent,
-    CarManagerComponent
+    CarManagerComponent,
+    LoginComponent,
+    RegisterComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +77,7 @@ import { CarManagerComponent } from './components/car-manager/car-manager.compon
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxMaskModule.forRoot(),  
+    NgxMaskModule.forRoot(),
     BrowserAnimationsModule,
     MatDialogModule,
     NgxSpinnerModule,
@@ -77,7 +85,11 @@ import { CarManagerComponent } from './components/car-manager/car-manager.compon
       positionClass: "toast-bottom-right"
     })
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

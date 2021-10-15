@@ -1,0 +1,51 @@
+<body class="text-center">
+
+    <main class="form-signin">
+        <form [formGroup]="registerForm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" fill="currentColor"
+                class="bi bi-person-circle mb-3" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                <path fill-rule="evenodd"
+                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+            </svg>
+            <h1 class="h3 mb-3 fw-normal">Kayıt ol</h1>
+
+            <div class="form-floating mb-2">
+                <input formControlName="firstName" type="text" class="form-control" id="signupfirstname"
+                    placeholder="Ad">
+                <label for="signupfirstname">Ad</label>
+            </div>
+            <div class="form-floating mb-2">
+                <input formControlName="lastName" type="text" class="form-control" id="signuplastname"
+                    placeholder="Soyad">
+                <label for="signuplastname">Soyad</label>
+            </div>
+            <div class="form-floating mb-2">
+                <input formControlName="email" type="email" class="form-control" id="signupemail"
+                    placeholder="name@example.com">
+                <label for="signupemail">E-posta adresi</label>
+            </div>
+            <div class="form-floating">
+                <input formControlName="password" type="password" class="form-control" id="signuppassword"
+                    placeholder="Parola">
+                <label for="signuppassword">Parola</label>
+            </div>
+            <div class="form-floating">
+                <input formControlName="confirmPassword" type="password" class="form-control" id="signupconfirmpassword"
+                    placeholder="Parola tekrar">
+                <label for="signupconfirmpassword">Parola tekrar</label>
+            </div>
+
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me" [(ngModel)]="rememberMe"
+                        [ngModelOptions]="{standalone: true}"> E-postamı hatırla
+                </label>
+            </div>
+            <button (click)="register()" class="w-100 btn btn-lg btn-primary" type="submit">Kayıt ol</button>
+        </form>
+    </main>
+
+
+
+</body>

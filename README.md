@@ -1,10 +1,10 @@
-# RentacarFrontend
+# Golden Car
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.4.
 
 ## CodeBeat
 
-[![codebeat badge](https://codebeat.co/badges/ecaf32db-e0d4-4935-b6a9-271aa4db1037)](https://codebeat.co/projects/github-com-furkanogutcu-rentacar-frontend-master)
+[![codebeat badge](https://codebeat.co/badges/ecaf32db-e0d4-4935-b6a9-271aa4db1037)](https://codebeat.co/projects/github-com-furkanogutcu-goldencar-frontend-master)
 
 ## Development server
 

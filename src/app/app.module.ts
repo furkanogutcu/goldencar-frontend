@@ -34,11 +34,12 @@ import { CarAddComponent } from './components/car-add/car-add.component';
 import { CarDeleteComponent } from './components/car-delete/car-delete.component';
 import { CarUpdateComponent } from './components/car-update/car-update.component';
 import { CarManagerComponent } from './components/car-manager/car-manager.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/account/account-login/account-login.component';
+import { RegisterComponent } from './components/account/account-register/account-register.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AccountHomeComponent } from './components/account/account-home/account-home.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     CarManagerComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    AccountHomeComponent
   ],
   imports: [
     BrowserModule,

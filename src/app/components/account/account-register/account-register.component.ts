@@ -9,8 +9,8 @@ import { ConfirmedValidator } from 'src/app/validators/confirmed.validator';
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  templateUrl: './account-register.component.html',
+  styleUrls: ['./account-register.component.css']
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;

@@ -7,8 +7,8 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './account-login.component.html',
+  styleUrls: ['./account-login.component.css']
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;

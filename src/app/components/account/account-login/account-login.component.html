@@ -37,7 +37,7 @@
                     <input type="checkbox" value="remember-me" [(ngModel)]="rememberMe"
                         [ngModelOptions]="{standalone: true}"> E-postamı hatırla
                 </label>
-                <a *ngIf="rememberedEmail" (click)="deleteRememberedEmail()" href="login">Farklı
+                <a *ngIf="rememberedEmail" (click)="deleteRememberedEmail()" href="account/login">Farklı
                     hesapla oturum aç</a>
             </div>
             <button (click)="login()" class="w-100 btn btn-lg btn-primary">Giriş yap</button>

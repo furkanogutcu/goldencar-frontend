@@ -1,0 +1,74 @@
+a {
+  text-decoration: none;
+}
+li {
+  list-style: none;
+}
+.ftco-footer {
+  font-size: 16px;
+  background: #000;
+  padding: 7em 0;
+}
+.ftco-footer .ftco-footer-widget h2 {
+  font-weight: normal;
+  color: #fff;
+  margin-bottom: 40px;
+  font-size: 20px;
+  font-weight: 400;
+}
+.ftco-footer .logo {
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #fff;
+}
+.ftco-footer .logo span {
+  color: rgb(255, 215, 0);
+}
+.ftco-footer p {
+  color: rgba(255, 255, 255, 0.7);
+}
+.block-23 ul li,
+.block-23 ul li > a {
+  display: table;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+.block-23 ul {
+  padding: 0;
+}
+.block-23 ul li .bi {
+  width: 40px;
+  font-size: 18px;
+  padding-top: 2px;
+  color: white;
+}
+
+.block-23 ul li .bi,
+.block-23 ul li .text {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.ftco-footer .icon {
+  font-size: 26px;
+  color: rgba(255, 255, 255, 0.9);
+  transition-duration: 0.2s;
+}
+.ftco-footer .icon:hover {
+  color: var(--primaryThemeColor);
+}
+
+.ftco-footer .ftco-footer-widget ul li a {
+  color: rgba(255, 255, 255, 0.7);
+}
+.ftco-footer .ftco-footer-widget ul li a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.block-23 ul li span {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-text {
+  color: rgba(255, 255, 255, 0.7);
+}

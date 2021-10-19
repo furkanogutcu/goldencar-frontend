@@ -1,12 +1,12 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" routerLink="">Golden Car</a>
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark" style="background-color:#000;">
+  <div class="container">
+    <h2><a class="logo" routerLink=""><span>Golden</span>Car</a></h2>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-3">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" routerLink="">Ana Sayfa</a>
         </li>
@@ -39,7 +39,8 @@
     <div *ngIf="!(isLoggedIn | async)" class="row">
       <button routerLink="/account/login" class="btn btn-primary rounded me-1 ms-4" style="width: 120px;" type="button"
         id="loginButton">Giriş yap</button>
-      <button routerLink="/account/register" class="btn btn-primary rounded me-2" style="width: 120px;" type="button" id="loginButton">Kayıt
+      <button routerLink="/account/register" class="btn btn-primary rounded me-2" style="width: 120px;" type="button"
+        id="loginButton">Kayıt
         ol</button>
     </div>
 

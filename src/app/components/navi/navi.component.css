@@ -1,0 +1,13 @@
+.logo {
+  text-decoration: none;
+  list-style: none;
+  font-weight: normal;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin: auto;
+  color: rgb(255, 255, 255);
+}
+.logo span {
+  color: rgb(255, 215, 0);
+}

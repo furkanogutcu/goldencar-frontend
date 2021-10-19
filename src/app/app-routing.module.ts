@@ -13,20 +13,25 @@ import { BrandManagerComponent } from './components/admin/admin-brand-manager/ad
 import { ColorManagerComponent } from './components/admin/admin-color-manager/admin-color-manager.component';
 import { CarManagerComponent } from './components/admin/admin-car-manager/admin-car-manager.component';
 import { AdminHomeComponent } from './components/admin/admin-home/admin-home.component';
+import { HomeLayoutComponent } from './components/home-layout/home-layout.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', component: CarComponent },
-  { path: 'cars', component: CarComponent },
-  { path: 'cars/brand/:brandid', component: CarComponent },
-  { path: 'cars/color/:colorid', component: CarComponent },
-  { path: 'cars/car-details/:carid', component: CarDetailsComponent },
-  { path: 'cart', component: CartComponent, canActivate: [LoginGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate: [LoginGuard] },
   {
-    path: 'admin', component: AdminHomeComponent, children: [
-      { path: 'brand/manager', component: BrandManagerComponent, canActivate: [LoginGuard, RoleGuard], data: { expectedRole: 'admin' } },
-      { path: 'color/manager', component: ColorManagerComponent, canActivate: [LoginGuard, RoleGuard], data: { expectedRole: 'admin' } },
-      { path: 'car/manager', component: CarManagerComponent, canActivate: [LoginGuard, RoleGuard], data: { expectedRole: 'admin' } },
+    path: '', component: HomeLayoutComponent, children: [
+      { path: '', component: CarComponent },
+      { path: 'cars', component: CarComponent },
+      { path: 'cars/brand/:brandid', component: CarComponent },
+      { path: 'cars/color/:colorid', component: CarComponent },
+      { path: 'cars/car-details/:carid', component: CarDetailsComponent },
+      { path: 'cart', component: CartComponent, canActivate: [LoginGuard] },
+      { path: 'profile', component: ProfileComponent, canActivate: [LoginGuard] },
+      {
+        path: 'admin', component: AdminHomeComponent, children: [
+          { path: 'brand/manager', component: BrandManagerComponent, canActivate: [LoginGuard, RoleGuard], data: { expectedRole: 'admin' } },
+          { path: 'color/manager', component: ColorManagerComponent, canActivate: [LoginGuard, RoleGuard], data: { expectedRole: 'admin' } },
+          { path: 'car/manager', component: CarManagerComponent, canActivate: [LoginGuard, RoleGuard], data: { expectedRole: 'admin' } },
+        ]
+      }
     ]
   },
   {

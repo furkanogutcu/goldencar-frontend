@@ -41,6 +41,8 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AccountHomeComponent } from './components/account/account-home/account-home.component';
 import { AdminHomeComponent } from './components/admin/admin-home/admin-home.component';
+import { HomeLayoutComponent } from './components/home-layout/home-layout.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { AdminHomeComponent } from './components/admin/admin-home/admin-home.com
     RegisterComponent,
     ProfileComponent,
     AccountHomeComponent,
-    AdminHomeComponent
+    AdminHomeComponent,
+    HomeLayoutComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

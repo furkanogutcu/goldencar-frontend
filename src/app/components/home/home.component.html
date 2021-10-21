@@ -1,0 +1,338 @@
+<div *ngIf="carsDataLoaded == false" class="spinner-border text-success" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
+
+<div *ngIf="carsDataLoaded === true">
+  <div *ngIf="randomCars.length > 0 " id="homeSlide" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button *ngFor="let randomCar of randomCars; let i = index" type="button" data-bs-target="#homeSlide"
+        attr.data-bs-slide-to="{{i}}" class="{{(i == 0) ? 'active' : ''}}" attr.aria-label="Slide {{i}}"></button>
+    </div>
+    <div class="carousel-inner">
+      <div *ngFor="let randomCar of randomCars; let i = index"
+        class="{{(i == 0) ? 'carousel-item active' : 'carousel-item' }}">
+        <div class="random-car-image d-flex" style="text-transform: uppercase;">
+          <div class="row">
+            <div class="col-md-4 text-end" style="padding-top: 90px;">
+              <div class="d-flex justify-content-end row">
+                <ul class="list-group text-light mt-5 align-items-end" style="width: 200px;">
+
+                  <li class="list-group mt-5">
+                    <div class="d-flex align-items-center">
+                      <div class="me-2">
+                        {{randomCar.brandName}}
+                      </div>
+                      <div class="text-center">
+                        <div class="text-center">
+                          <button class="btn" style="background-color: var(--firstThemeColor)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                              fill="var(--secondThemeColor)" class="bi bi-star-fill" viewBox="0 0 16 16">
+                              <path
+                                d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li class="list-group mt-5">
+                    <div class="d-flex align-items-center">
+                      <div class="me-2">
+                        {{randomCar.modelName}}
+                      </div>
+                      <div class="text-center">
+                        <div class="text-center">
+                          <button class="btn" style="background-color: var(--firstThemeColor)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                              fill="var(--secondThemeColor)" class="bi bi-star" viewBox="0 0 16 16">
+                              <path
+                                d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li class="list-group mt-5">
+                    <div class="d-flex align-items-center">
+                      <div class="me-2">
+                        {{randomCar.colorName}}
+                      </div>
+                      <div class="text-center">
+                        <div class="text-center">
+                          <button class="btn" style="background-color: var(--firstThemeColor)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                              fill="var(--secondThemeColor)" class="bi bi-paint-bucket" viewBox="0 0 16 16">
+                              <path
+                                d="M6.192 2.78c-.458-.677-.927-1.248-1.35-1.643a2.972 2.972 0 0 0-.71-.515c-.217-.104-.56-.205-.882-.02-.367.213-.427.63-.43.896-.003.304.064.664.173 1.044.196.687.556 1.528 1.035 2.402L.752 8.22c-.277.277-.269.656-.218.918.055.283.187.593.36.903.348.627.92 1.361 1.626 2.068.707.707 1.441 1.278 2.068 1.626.31.173.62.305.903.36.262.05.64.059.918-.218l5.615-5.615c.118.257.092.512.05.939-.03.292-.068.665-.073 1.176v.123h.003a1 1 0 0 0 1.993 0H14v-.057a1.01 1.01 0 0 0-.004-.117c-.055-1.25-.7-2.738-1.86-3.494a4.322 4.322 0 0 0-.211-.434c-.349-.626-.92-1.36-1.627-2.067-.707-.707-1.441-1.279-2.068-1.627-.31-.172-.62-.304-.903-.36-.262-.05-.64-.058-.918.219l-.217.216zM4.16 1.867c.381.356.844.922 1.311 1.632l-.704.705c-.382-.727-.66-1.402-.813-1.938a3.283 3.283 0 0 1-.131-.673c.091.061.204.15.337.274zm.394 3.965c.54.852 1.107 1.567 1.607 2.033a.5.5 0 1 0 .682-.732c-.453-.422-1.017-1.136-1.564-2.027l1.088-1.088c.054.12.115.243.183.365.349.627.92 1.361 1.627 2.068.706.707 1.44 1.278 2.068 1.626.122.068.244.13.365.183l-4.861 4.862a.571.571 0 0 1-.068-.01c-.137-.027-.342-.104-.608-.252-.524-.292-1.186-.8-1.846-1.46-.66-.66-1.168-1.32-1.46-1.846-.147-.265-.225-.47-.251-.607a.573.573 0 0 1-.01-.068l3.048-3.047zm2.87-1.935a2.44 2.44 0 0 1-.241-.561c.135.033.324.11.562.241.524.292 1.186.8 1.846 1.46.45.45.83.901 1.118 1.31a3.497 3.497 0 0 0-1.066.091 11.27 11.27 0 0 1-.76-.694c-.66-.66-1.167-1.322-1.458-1.847z" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-md-4 d-flex justify-content-center">
+              <img [src]="getImagePath(randomCar.carImages[0].imagePath)" alt="">
+            </div>
+
+            <div class="col-md-4 text-end" style="padding-top: 90px;">
+              <div class="d-flex justify-content-start row">
+                <ul class="list-group text-light mt-5 align-items-start" style="width: 200px;">
+
+                  <li class="list-group mt-5">
+                    <div class="d-flex align-items-center">
+                      <div class="text-center">
+                        <div class="text-center">
+                          <button class="btn" style="background-color: var(--firstThemeColor)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                              fill="var(--secondThemeColor)" class="bi bi-calendar-date" viewBox="0 0 16 16">
+                              <path
+                                d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z" />
+                              <path
+                                d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="ms-2">
+                        {{randomCar.modelYear}} Model
+                      </div>
+                    </div>
+                  </li>
+
+                  <li class="list-group mt-5">
+                    <div class="d-flex align-items-center">
+                      <div class="text-center">
+                        <div class="text-center">
+                          <button class="btn" style="background-color: var(--firstThemeColor)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                              fill="var(--secondThemeColor)" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd"
+                                d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z" />
+                              <path
+                                d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1h-.003zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195l.054.012z" />
+                              <path
+                                d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083c.058-.344.145-.678.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1H1z" />
+                              <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="ms-2">
+                        {{randomCar.dailyPrice | currency:"":""}}₺
+                      </div>
+                    </div>
+                  </li>
+
+                  <li class="list-group mt-5">
+                    <div class="d-flex align-items-center">
+                      <div class="text-center">
+                        <div class="text-center">
+                          <button class="btn" style="background-color: var(--firstThemeColor)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                              fill="var(--secondThemeColor)" class="bi bi-info-lg" viewBox="0 0 16 16">
+                              <path
+                                d="m9.708 6.075-3.024.379-.108.502.595.108c.387.093.464.232.38.619l-.975 4.577c-.255 1.183.14 1.74 1.067 1.74.72 0 1.554-.332 1.933-.789l.116-.549c-.263.232-.65.325-.905.325-.363 0-.494-.255-.402-.704l1.323-6.208Zm.091-2.755a1.32 1.32 0 1 1-2.64 0 1.32 1.32 0 0 1 2.64 0Z" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="ms-2 row">
+                        <span class="d-inline-block text-truncate" style="max-width: 300px;">
+                          {{randomCar.description}}
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="carousel-caption" routerLink="/car-details/{{randomCar.id}}">
+            <h1 style="text-transform: uppercase; color: var(--firstThemeColor);">{{randomCar.brandName}}
+              {{randomCar.modelName}}</h1>
+            <p>Günlük <strong style="color: var(--firstThemeColor);">{{randomCar.dailyPrice | currency:"":""}}₺</strong>
+              den başlayan fiyatlarla</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#homeSlide" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#homeSlide" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <div class="container">
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <div class="container bootstrap snippets bootdey">
+      <section id="content" class="current">
+        <div class="container text-center">
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <h2 style="font-size: 60px;line-height: 60px;margin-bottom: 20px;font-weight: 900;"><span
+                  class="highlight">GOLDEN</span> CAR</h2>
+              <p>Yolculuk konforunuz için elimizden gelenin en iyisini yapıyoruz.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-offset-1 col-sm-12 col-md-12 col-lg-10">
+              <div class="features-list">
+                <div class="row">
+                  <div class="col-sm-6 col-md-4 col-lg-4">
+                    <div class="feature-block bootdey" style="visibility: visible;">
+                      <div class="ico fa">{{brands.length}}</div>
+                      <div class="name">
+                        MARKA
+                      </div>
+                      <div class="text">Müşterilerimize {{brands.length}} farklı markanın aracını sunuyoruz.</div>
+                      <div class="more">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-md-4 col-lg-4">
+                    <div class="feature-block bootdey" style="visibility: visible;">
+                      <div *ngIf="routerLink == '' " class="ico fa">{{cars.length}}</div>
+                      <div *ngIf="routerLink != '' " class="ico fa" style="background-color: black; color: gold;">
+                        {{cars.length}}</div>
+                      <div class="name">
+                        ARAÇ
+                      </div>
+                      <div *ngIf="routerLink == '' " class="text">Müşterilerimize {{cars.length}} farklı modeldeki aracı
+                        sunuyoruz.</div>
+                      <div *ngIf="routerLink != '' " class="text"><strong>Aradığınız kriterlerde {{cars.length}} farklı
+                          model aracı sizlere sunuyoruz.</strong></div>
+                      <div class="more">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-md-4 col-lg-4">
+                    <div class="feature-block bootdey" style="visibility: visible;">
+                      <div class="ico fa">{{colors.length}}</div>
+                      <div class="name">
+                        RENK
+                      </div>
+                      <div class="text">Müşterilerimize {{colors.length}} renk seçeneği sunuyoruz.</div>
+                      <div class="more">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="container">
+    <form *ngIf="carsDataLoaded == true" class="row filterArea">
+      <div class="filterHeadText mt-3" style="color: var(--firstThemeColor);">ARAÇ FİLTRELE</div>
+      <div class="divider div-transparent div-arrow-down mb-4" style="--icon-color:white"></div>
+      <div class="row mb-3">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-4">
+          <div class="row text-center text-light">
+            <p style="font-size:19px">Hızlı Filtreleme</p>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <app-brand></app-brand>
+            </div>
+            <div class="col-md-6">
+              <app-color></app-color>
+            </div>
+          </div>
+          <div class="row">
+            <div class="mt-3">
+              <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="filterCarModelName"
+                class="form-control" placeholder="Model adı giriniz">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="row text-center text-light">
+            <p style="font-size:19px">Detaylı Filtreleme</p>
+          </div>
+          <div class="row">
+            <div class="row">
+              <div *ngIf="brandsDataLoaded == true" class="col-6">
+                <div class="form-floating">
+                  <select #fastBrand [ngModelOptions]="{standalone: true}" [(ngModel)]="filterBrandId"
+                    class="form-select" aria-label="Marka adı">
+                    <option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}}</option>
+                  </select>
+                  <label for="fastBrand">Filtrelenecek Marka</label>
+                </div>
+              </div>
+              <div #fastColor *ngIf="colorsDataLoaded == true" class="col-6">
+                <div class="form-floating">
+                  <select [ngModelOptions]="{standalone: true}" [(ngModel)]="filterColorId" class="form-select"
+                    aria-label="Renk adı">
+                    <option *ngFor="let color of colors" [value]="color.id">{{color.name}}</option>
+                  </select>
+                  <label for="fastColor">Filtrelenecek Renk</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <button (click)="getCarsByFilter(filterBrandId,filterColorId)" type="submit" class="btn mt-3"
+                style="border-color: var(--firstThemeColor); color: var(--firstThemeColor); width: 180px;">Filtrele</button>
+            </div>
+            <div class="col-6">
+              <button (click)="getCars()" type="submit" class="btn mt-3"
+                style="border-color: var(--firstThemeColor); color: var(--firstThemeColor); margin-left: -12px; width: 180px;">Filtreyi
+                temizle</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+      </div>
+    </form>
+
+
+    <div *ngIf="carsDataLoaded == true" class="row mb-5">
+      <div class="row row-cols-1 row-cols-md-5 g-4">
+        <div *ngFor="let car of cars | filterCarModelPipe:filterCarModelName" class="col">
+          <div class="card h-100" style="width: 15rem; background-color: var(--secondThemeColor);border-radius: 20px;">
+
+            <img [src]="getImagePath(car.carImages[0].imagePath)" routerLink="/car-details/{{car.id}}"
+              class="card-img-top mt-4" alt="image-not-found" style="object-fit: cover; width: 190px; margin:auto" />
+
+            <div class="card-body" style="color: white">
+
+              <h5 class="card-title text-center" style="color: var(--firstThemeColor);"><strong>{{car.brandName}}
+                  {{car.modelName}}</strong></h5>
+              <div class="divider div-transparent div-arrow-down mb-4" style="--icon-color:white"></div>
+              <p class="text-center">Günlük <strong style="color: var(--firstThemeColor);">{{car.dailyPrice |
+                  currency:"":""}}₺</strong> den başlayan fiyatlarla..</p>
+
+              <div class="text-center">
+                <a routerLink="/car-details/{{car.id}}" class="btn"
+                  style="background-color: var(--firstThemeColor); color: var(--secondThemeColor); font-weight: bold;">İNCELE</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

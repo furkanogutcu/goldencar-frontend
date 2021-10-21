@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
 import { BrandComponent } from './components/brand/brand.component';
 import { ColorComponent } from './components/color/color.component';
 import { CustomerComponent } from './components/customer/customer.component';
-import { CarComponent } from './components/car/car.component';
+import { HomeComponent } from './components/home/home.component';
 import { RentalComponent } from './components/rental/rental.component';
 import { NaviComponent } from './components/navi/navi.component';
 import { CarDetailsComponent } from './components/car-details/car-details.component';
@@ -39,10 +39,10 @@ import { RegisterComponent } from './components/account/account-register/account
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { ProfileComponent } from './components/profile/profile.component';
-import { AccountHomeComponent } from './components/account/account-home/account-home.component';
-import { AdminHomeComponent } from './components/admin/admin-home/admin-home.component';
-import { HomeLayoutComponent } from './components/home-layout/home-layout.component';
+import { AccountLayoutComponent } from './components/account/account-layout/account-layout.component';
+import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { HomeLayoutComponent } from './components/home-layout/home-layout.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +50,7 @@ import { FooterComponent } from './components/footer/footer.component';
     BrandComponent,
     ColorComponent,
     CustomerComponent,
-    CarComponent,
+    HomeComponent,
     RentalComponent,
     NaviComponent,
     CarDetailsComponent,
@@ -74,10 +74,10 @@ import { FooterComponent } from './components/footer/footer.component';
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
-    AccountHomeComponent,
-    AdminHomeComponent,
+    AccountLayoutComponent,
+    AdminLayoutComponent,
+    FooterComponent,
     HomeLayoutComponent,
-    FooterComponent
   ],
   imports: [
     BrowserModule,

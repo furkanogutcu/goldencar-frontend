@@ -1,23 +1,48 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
+    <div class="row card-group">
+        <div class="col-md-3">
+            <div class="card h-100">
+                <div class="card-body text-center" style="margin-top: 70px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" fill="black"
-                        class="bi bi-person-circle" viewBox="0 0 16 16">
+                        class="bi bi-person-circle" viewBox="0 0 16 16" s>
                         <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                         <path fill-rule="evenodd"
                             d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
                     </svg>
                 </div>
-                <div class="card-footer text-center">
-                    <button class="btn btn-primary" disabled>Resmi değiştir</button>
+                <div class="card-footer text-center d-grid gap-2">
+                    <button class="btn btn-success" disabled>Resmi değiştir</button>
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-4">
             <div class="row card">
-                <div class="card-header">Profilini Güncelle</div>
+                <div class="card-header text-center"
+                    style="background-color: var(--secondThemeColor); color: var(--firstThemeColor); font-weight: bold;">
+                    Bilgilerim</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5  text-end">
+                            <strong>E-mail:</strong>
+                        </div>
+                        <div class="col-md-7">
+                            <p>{{currentUser.email}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 text-end">
+                            <strong>Ad-Soyad:</strong>
+                        </div>
+                        <div class="col-md-7">
+                            <p>{{currentUser.name}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row card mt-1">
+                <div class="card-header text-center"
+                    style="background-color: var(--secondThemeColor); color: var(--firstThemeColor); font-weight: bold;">
+                    Bilgilerini Güncelle</div>
                 <div class="card-body">
                     <form [formGroup]="updateProfileForm">
                         <div class="row">
@@ -38,17 +63,21 @@
                         </div>
                     </form>
                 </div>
-                <div class="card-footer">
-                    <button (click)="updateProfile()" class="btn btn-primary float-end px-3">Güncelle</button>
+                <div class="card-footer d-grid gap-2">
+                    <button (click)="updateProfile()" class="btn btn-success float-end px-3">Güncelle</button>
                 </div>
             </div>
-            <div class="row mt-3 card">
-                <div class="card-header">Şifreyi Değiştir</div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-header text-center"
+                    style="background-color: var(--secondThemeColor); color: var(--firstThemeColor); font-weight: bold;">
+                    Şifreyi Değiştir</div>
                 <div class="card-body">
                     <form [formGroup]="changePasswordForm">
                         <div class="form-floating">
-                            <input formControlName="oldPassword" type="password" class="form-control"
-                                id="oldPassword" placeholder="Mevcut şifre">
+                            <input formControlName="oldPassword" type="password" class="form-control" id="oldPassword"
+                                placeholder="Mevcut şifre">
                             <label for="oldPassword">Eski şifre</label>
                         </div>
                         <div class="form-floating mt-3">
@@ -64,8 +93,8 @@
 
                     </form>
                 </div>
-                <div class="card-footer">
-                    <button (click)="changePassword()" class="btn btn-primary float-end px-3">Şifreyi değiştir</button>
+                <div class="card-footer d-grid gap-2">
+                    <button (click)="changePassword()" class="btn btn-success btn-block">Şifreyi değiştir</button>
                 </div>
             </div>
         </div>

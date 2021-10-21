@@ -1,13 +1,19 @@
-.logo {
-  text-decoration: none;
-  list-style: none;
-  font-weight: normal;
-  font-size: 20px;
-  text-transform: uppercase;
-  font-weight: 500;
-  margin: auto;
-  color: rgb(255, 255, 255);
+.loginButtonLoginText {
+  display: block;
+  color: #484848;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
 }
-.logo span {
-  color: rgb(255, 215, 0);
+
+.loginButtonRegisterText {
+  width: 93px;
+  display: block;
+  font-size: 10px;
+  color: #484848;
+  white-space: nowrap;
+  line-height: 1.4;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }

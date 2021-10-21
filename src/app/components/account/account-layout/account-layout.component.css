@@ -1,0 +1,57 @@
+html,
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.form-account {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-account .checkbox {
+  font-weight: 400;
+}
+
+.form-account .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-account input[type="email"] {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-account input[type="password"] {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.account-page {
+  width: 100%;
+  height: var(--pageHeight);
+  background-color: var(--firstThemeColor);
+}
+
+.account-card {
+  max-width: 450px;
+  padding: 50px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.card-body {
+  max-width: 500px;
+  padding: 15px;
+}

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { RegisterModel } from 'src/app/models/auth/registerModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ConfirmedValidator } from 'src/app/validators/confirmed.validator';
@@ -10,7 +9,7 @@ import { ConfirmedValidator } from 'src/app/validators/confirmed.validator';
 @Component({
   selector: 'app-register',
   templateUrl: './account-register.component.html',
-  styleUrls: ['./account-register.component.css', '../account-login/account-login.component.css']
+  styleUrls: ['./account-register.component.css', '../account-layout/account-layout.component.css']
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;

@@ -1,6 +1,6 @@
 <div class="row">
     <!--Payment Div-->
-    <div *ngIf="paymentForm && cartConfirmation===1 && !paymentConfirmation" class="content col-md-8">
+    <div *ngIf="paymentForm && cartConfirmation===1 && !paymentConfirmation" class="content col-md-7">
         <div class="row">
             <div class="container">
                 <div class="row">
@@ -26,8 +26,8 @@
                                 <!--cardHolderFullName validator info-->
                                 <div
                                     *ngIf="paymentForm.get('cardHolderFullName')?.invalid && 
-                                paymentForm.get('cardHolderFullName')?.errors && 
-                                (paymentForm.get('cardHolderFullName')?.dirty || paymentForm.get('cardHolderFullName')?.touched)">
+                                        paymentForm.get('cardHolderFullName')?.errors && 
+                                        (paymentForm.get('cardHolderFullName')?.dirty || paymentForm.get('cardHolderFullName')?.touched)">
                                     <small class="text-danger"
                                         *ngIf="paymentForm.get('cardHolderFullName')?.hasError('required')">
                                         Bu alan boş olamaz!
@@ -50,9 +50,10 @@
                                     <label for="cardNumber">Kart numarası</label>
                                 </div>
                                 <!--cardNumber validator info-->
-                                <div *ngIf="paymentForm.get('cardNumber')?.invalid && 
-                                paymentForm.get('cardNumber')?.errors && 
-                                (paymentForm.get('cardNumber')?.dirty || paymentForm.get('cardNumber')?.touched)">
+                                <div
+                                    *ngIf="paymentForm.get('cardNumber')?.invalid && 
+                                        paymentForm.get('cardNumber')?.errors && 
+                                        (paymentForm.get('cardNumber')?.dirty || paymentForm.get('cardNumber')?.touched)">
                                     <small class="text-danger"
                                         *ngIf="paymentForm.get('cardNumber')?.hasError('required')">
                                         Bu alan boş olamaz!
@@ -71,44 +72,16 @@
                                 <div class="row d-flex flex-row form-floating">
                                     <div class="col-md-4">
                                         <div class="mt-3 mr-2 form-floating">
-                                            <input type="text" id="expireYear" formControlName="expireYear"
-                                                placeholder="Yıl" class="form-control" mask='0000' minlength="4"
-                                                maxlength="4" />
-                                            <label for="expireYear">Yıl</label>
-                                        </div>
-                                        <!--expireYear validator info-->
-                                        <div *ngIf="paymentForm.get('expireYear')?.invalid &&
-                            paymentForm.get('expireYear')?.errors && 
-                            (paymentForm.get('expireYear')?.dirty || paymentForm.get('expireYear')?.touched)">
-                                            <small class="text-danger"
-                                                *ngIf="paymentForm.get('expireYear')?.hasError('required')">
-                                                Bu alan boş olamaz!
-                                            </small>
-                                            <small class="text-danger"
-                                                *ngIf="paymentForm.get('expireYear')?.hasError('minlength')">
-                                                Bu alana 4 karakter girilmelidir!
-                                            </small>
-                                            <small class="text-danger"
-                                                *ngIf="paymentForm.get('expireYear')?.hasError('maxlength')">
-                                                Bu alana 4 karakter girilmelidir!
-                                            </small>
-                                        </div>
-                                        <!--expireYear validator info end-->
-                                    </div>
-
-
-
-                                    <div class="col-md-4">
-                                        <div class="mt-3 mr-2 form-floating">
                                             <input type="text" id="expireMonth" formControlName="expireMonth"
                                                 placeholder="Ay" class="form-control" mask='00' minlength="2"
                                                 maxlength="2" />
                                             <label for="expireMonth">Ay</label>
                                         </div>
                                         <!--expireMonth validator info-->
-                                        <div *ngIf="paymentForm.get('expireMonth')?.invalid &&
-                            paymentForm.get('expireMonth')?.errors && 
-                            (paymentForm.get('expireMonth')?.dirty || paymentForm.get('expireMonth')?.touched)">
+                                        <div
+                                            *ngIf="paymentForm.get('expireMonth')?.invalid &&
+                                                paymentForm.get('expireMonth')?.errors && 
+                                                (paymentForm.get('expireMonth')?.dirty || paymentForm.get('expireMonth')?.touched)">
                                             <small class="text-danger"
                                                 *ngIf="paymentForm.get('expireMonth')?.hasError('required')">
                                                 Bu alan boş olamaz!
@@ -125,7 +98,33 @@
                                         <!--expireMonth validator info end-->
                                     </div>
 
-
+                                    <div class="col-md-4">
+                                        <div class="mt-3 mr-2 form-floating">
+                                            <input type="text" id="expireYear" formControlName="expireYear"
+                                                placeholder="Yıl" class="form-control" mask='0000' minlength="4"
+                                                maxlength="4" />
+                                            <label for="expireYear">Yıl</label>
+                                        </div>
+                                        <!--expireYear validator info-->
+                                        <div
+                                            *ngIf="paymentForm.get('expireYear')?.invalid &&
+                                                paymentForm.get('expireYear')?.errors && 
+                                                (paymentForm.get('expireYear')?.dirty || paymentForm.get('expireYear')?.touched)">
+                                            <small class="text-danger"
+                                                *ngIf="paymentForm.get('expireYear')?.hasError('required')">
+                                                Bu alan boş olamaz!
+                                            </small>
+                                            <small class="text-danger"
+                                                *ngIf="paymentForm.get('expireYear')?.hasError('minlength')">
+                                                Bu alana 4 karakter girilmelidir!
+                                            </small>
+                                            <small class="text-danger"
+                                                *ngIf="paymentForm.get('expireYear')?.hasError('maxlength')">
+                                                Bu alana 4 karakter girilmelidir!
+                                            </small>
+                                        </div>
+                                        <!--expireYear validator info end-->
+                                    </div>
 
                                     <div class="col-md-4">
                                         <div class="mt-3 mr-2 form-floating">
@@ -135,8 +134,8 @@
                                         </div>
                                         <!--cvc validator info-->
                                         <div *ngIf="paymentForm.get('cvc')?.invalid &&
-                            paymentForm.get('cvc')?.errors && 
-                            (paymentForm.get('cvc')?.dirty || paymentForm.get('cvc')?.touched)">
+                                                paymentForm.get('cvc')?.errors && 
+                                                (paymentForm.get('cvc')?.dirty || paymentForm.get('cvc')?.touched)">
                                             <small class="text-danger"
                                                 *ngIf="paymentForm.get('cvc')?.hasError('required')">
                                                 Bu alan boş olamaz!
@@ -176,29 +175,29 @@
     </div>
 
     <!--Cart Div-->
-    <div *ngIf="cartConfirmation===0 && !paymentConfirmation" class="col-md-8">
+    <div *ngIf="cartConfirmation===0 && !paymentConfirmation" class="col-md-7">
         <div *ngIf="cartItems.length!==0" class="row">
-            <h3>Sepetim ({{cartItems.length}} Ürün)</h3><br>
+            <h3>Sepetim ({{cartItems.length}} Araç)</h3><br>
         </div>
         <div *ngIf="cartItems.length===0" class="row align-items-center">
-            <div class="col-md-8">
-                <h4>Sepetinizde ürün bulunmamaktadır.</h4>
+            <div class="col-md-7">
+                <h4>Sepetinizde araç bulunmamaktadır.</h4>
             </div>
-            <div class="col-md-4">
-                <button routerLink="/cars" class="btn btn-primary text-center" type="button"><strong>Alışverişe
-                        başla</strong></button>
+            <div class="col-md-5">
+                <button routerLink="" class="btn btn-primary text-center" type="button"><strong>Araç
+                        kiralamaya başla</strong></button>
             </div>
         </div>
         <hr *ngIf="cartItems.length > 0" class="dropdown-divider" />
         <div *ngFor="let cartItem of cartItems">
             <div style="display: flex; flex: 1 1 auto;">
-                <div routerLink="/cars/car-details/{{cartItem.car.id}}" class="d-flex align-items-center">
-                    <img class="" [src]="getImagePath(cartItem.car.carImages[0].imagePath)" height="80" width="120"
-                        alt="...">
+                <div routerLink="/car-details/{{cartItem.car.id}}" class="d-flex align-items-center">
+                    <img class="" [src]="getImagePath(cartItem.car.carImages[0].imagePath)" height="80" alt="..."
+                        style="object-fit: cover;">
                 </div>
                 <div class="card-body">
                     <div class="row align-items-center">
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <h6 class="card-title ">{{cartItem.car.brandName}} {{cartItem.car.modelName}}</h6>
 
                             <div class="row">
@@ -210,7 +209,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <div class="row d-flex justify-content-end align-items-center">
                                 <div class="col-md-7">
                                     <p class="card-text text-danger text-nowrap">
@@ -235,7 +234,7 @@
     </div>
 
     <!--Payment Successful Div-->
-    <div *ngIf="paymentConfirmation && paymentConfirmation===1" class="content col-md-8">
+    <div *ngIf="paymentConfirmation && paymentConfirmation===1" class="content col-md-7">
         <div class="container">
             <div style="position: relative;">
                 <div class="card p-4" style="background-color: rgb(253, 253, 253);">
@@ -248,25 +247,31 @@
                         <hr class="dropdown-divider" />
                         <div class="mt-3">
                             <ul class="list-group">
-                                <li *ngIf="infoNumberOfCarsInPayment" class="list-group-item d-flex justify-content-between align-items-center">
+                                <li *ngIf="infoNumberOfCarsInPayment"
+                                    class="list-group-item d-flex justify-content-between align-items-center">
                                     Kiralanan araç sayısı:
                                     <span>{{infoNumberOfCarsInPayment}} araç</span>
                                 </li>
-                                <li *ngIf="infoNumberOfDaysInPayment" class="list-group-item d-flex justify-content-between align-items-center">
+                                <li *ngIf="infoNumberOfDaysInPayment"
+                                    class="list-group-item d-flex justify-content-between align-items-center">
                                     Kiralanan gün sayısı:
                                     <span>{{infoNumberOfDaysInPayment}} gün</span>
                                 </li>
-                                <li *ngIf="infoPaymentDate" class="list-group-item d-flex justify-content-between align-items-center">
+                                <li *ngIf="infoPaymentDate"
+                                    class="list-group-item d-flex justify-content-between align-items-center">
                                     Kiralama tarihi:
                                     <span>{{infoPaymentDate}}</span>
                                 </li>
-                                <li *ngIf="infoPaymentId" class="list-group-item d-flex justify-content-between align-items-center">
+                                <li *ngIf="infoPaymentId"
+                                    class="list-group-item d-flex justify-content-between align-items-center">
                                     Ödeme ID:
                                     <span>{{infoPaymentId}}</span>
                                 </li>
-                                <li *ngIf="infoAmountInPayment" class="list-group-item d-flex justify-content-between align-items-center">
+                                <li *ngIf="infoAmountInPayment"
+                                    class="list-group-item d-flex justify-content-between align-items-center">
                                     <h5><strong>Ödenen Tutar:</strong></h5>
-                                    <h5><strong><span>{{infoAmountInPayment | currency:"":""}}₺</span></strong></h5>
+                                    <h5><strong><span>{{infoAmountInPayment | currency:"":""}}₺</span></strong>
+                                    </h5>
                                 </li>
                             </ul>
                         </div><br>
@@ -278,12 +283,18 @@
     </div>
 
     <!--Order Summary Div-->
-    <div class="col-md-4">
+    <div class="col-md-5">
         <div *ngIf="cartItems.length!==0" class="card">
             <div class="card-body">
                 <h5 class="card-title">Sipariş Özeti</h5>
                 <p class="card-text">
                 <ul class="list-group">
+                    <li class="list-group-item border border-light">
+                        <small>
+                            <span class="float-start">Toplam kiralanan araç sayısı:</span>
+                            <span class="float-end"><strong>{{cartItems.length}} araç</strong></span>
+                        </small>
+                    </li>
                     <li class="list-group-item border border-light">
                         <small>
                             <span class="float-start">Toplam kiralama süresi: </span>

@@ -19,10 +19,7 @@ li {
 .ftco-footer .logo {
   text-transform: uppercase;
   font-weight: 500;
-  color: #fff;
-}
-.ftco-footer .logo span {
-  color: rgb(255, 215, 0);
+  color: white;
 }
 .ftco-footer p {
   color: rgba(255, 255, 255, 0.7);

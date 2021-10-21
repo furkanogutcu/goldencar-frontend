@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark" style="background-color:#000;">
   <div class="container">
-    <h2><a class="logo" routerLink=""><span>Golden</span>Car</a></h2>
+    <h2><a class="logo" routerLink=""><span>Golden</span><span><span>Car</span></span></a></h2>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,9 +9,6 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-3">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" routerLink="">Ana Sayfa</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" routerLink="/cars">Araba Listesi</a>
         </li>
         <li *ngIf="isLoggedIn | async" class="nav-item dropdown">
           <div *ngIf="isAdmin">
@@ -32,36 +29,65 @@
     </div>
     <div class="me-3">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <app-cart-summary></app-cart-summary>
-      </ul>
-    </div>
+        <div class="me-3">
+          <app-cart-summary></app-cart-summary>
+        </div>
 
-    <div *ngIf="!(isLoggedIn | async)" class="row">
-      <button routerLink="/account/login" class="btn btn-primary rounded me-1 ms-4" style="width: 120px;" type="button"
-        id="loginButton">Giriş yap</button>
-      <button routerLink="/account/register" class="btn btn-primary rounded me-2" style="width: 120px;" type="button"
-        id="loginButton">Kayıt
-        ol</button>
-    </div>
+        <div *ngIf="!(isLoggedIn | async)">
+          <li class="nav-item">
+            <div class="btn-group">
+              <button class="btn btn-warning rounded"
+                style="width: 150px; background-color: var(--firstThemeColor); border-color: var(--firstThemeColor);"
+                type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="row">
+                  <div class="col-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="var(--secondThemeColor)"
+                      class="bi bi-person-fill" viewBox="0 0 16 16">
+                      <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                    </svg>
+                  </div>
+                  <div class="col-10">
+                    <span>
+                      <span class="loginButtonLoginText" style="color: var(--secondThemeColor)">GİRİŞ YAP</span>
+                      <span class="loginButtonRegisterText" style="color: var(--secondThemeColor)">veya üye ol</span>
+                    </span>
+                  </div>
+                </div>
+              </button>
+              <ul class="dropdown-menu shadow text-center" aria-labelledby="dropdownMenu2">
+                <li>
+                  <a class="dropdown-item" routerLink="/account/login">Giriş yap</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" routerLink="/account/register">Üye ol</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </div>
 
-    <div *ngIf="isLoggedIn | async" class="flex-shrink-0 dropdown text-end">
-      <!--Profilim-->
-      <a class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown"
-        aria-expanded="false">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-person-circle"
-          viewBox="0 0 16 16">
-          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-          <path fill-rule="evenodd"
-            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-        </svg>
-        <span class="text-light ms-2">{{currentUser.name}}</span>
-      </a>
-      <ul class="dropdown-menu dropdown-menu-end shadow text-small" aria-labelledby="dropdownUser1">
-        <li><a routerLink="/profile" class="dropdown-item">Profilim</a></li>
-        <li>
-          <hr class="dropdown-divider">
-        </li>
-        <li><a (click)="logOut()" class="dropdown-item">Çıkış yap</a></li>
+        <div *ngIf="isLoggedIn | async" class="dropdown text-end">
+          <li class="nav-item d-flex align-items-center">
+            <!--Profilim-->
+            <a class="d-block link-dark text-decoration-none dropdown-toggle mt-1" id="dropdownUser1"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-person-circle"
+                viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                <path fill-rule="evenodd"
+                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+              </svg>
+              <span class="text-light ms-2">{{currentUser.name}}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow text-small" aria-labelledby="dropdownUser1">
+              <li><a routerLink="/profile" class="dropdown-item">Profilim</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a (click)="logOut()" class="dropdown-item">Çıkış yap</a></li>
+            </ul>
+          </li>
+        </div>
       </ul>
     </div>
   </div>

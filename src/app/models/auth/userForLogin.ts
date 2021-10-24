@@ -1,5 +1,5 @@
 export class UserForLogin {
-    id: string;
+    id: number;
     email: string;
     name: string;
     roles: string[];

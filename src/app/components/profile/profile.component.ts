@@ -3,7 +3,6 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { ChangePasswordModel } from 'src/app/models/auth/changePasswordModel';
 import { UserForLogin } from 'src/app/models/auth/userForLogin';
 import { User } from 'src/app/models/entities/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -59,7 +58,7 @@ export class ProfileComponent implements OnInit {
     if (this.updateProfileForm.valid) {
       let user: User = Object.assign({}, this.updateProfileForm.value);
       user.email = this.currentUser.email;
-      user.id = this.currentUser.id;
+      user.id = String(this.currentUser.id);
       this.userService.updateProfile(user).subscribe((successResponse) => {
         this.logOutAndGoLoginPage();
         this.toastrService.success("Lütfen tekrar giriş yapınız", "Profiliniz başarıyla güncellendi");

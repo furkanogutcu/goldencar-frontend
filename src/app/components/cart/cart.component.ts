@@ -1,3 +1,7 @@
+import { Customer } from './../../models/entities/customer';
+import { CustomerService } from 'src/app/services/customer.service';
+import { AuthService } from './../../services/auth.service';
+import { UserForLogin } from './../../models/auth/userForLogin';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Car } from 'src/app/models/entities/car';
@@ -23,6 +27,7 @@ export class CartComponent implements OnInit {
   paymentForm: FormGroup;
   cartConfirmation: number = 0;
   paymentConfirmation: number;
+  currentUser: UserForLogin;
 
   infoNumberOfCarsInPayment: number;
   infoNumberOfDaysInPayment: number;
@@ -37,10 +42,13 @@ export class CartComponent implements OnInit {
     private carImagesService: CarImagesService,
     public dateTimeService: DateTimeService,
     private rentalService: RentalService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private customerService: CustomerService) { }
 
   ngOnInit(): void {
     this.resetCartScreen();
+    this.currentUser = this.authService.getUser()!;
     this.getCart();
   }
 
@@ -57,33 +65,55 @@ export class CartComponent implements OnInit {
   rent() {
     if (this.paymentForm.valid) {
       this.spinner.show();
-      let rentRequest: RentPaymentRequest = Object.assign({}, this.paymentForm.value);
-      rentRequest.amount = this.calculateTotalAmount();
-      rentRequest.customerId = 1;
-      rentRequest.rentals = this.createRentals();
-      this.rentalService.rent(rentRequest).subscribe(response => {
-        this.toastrService.success(response.message, "Ödeme başarılı")
-        this.paymentConfirmation = 1;
-        //Set infos
-        this.infoNumberOfCarsInPayment = this.cartItems.length;
-        this.infoNumberOfDaysInPayment = this.calculateTotalRentalPeriod();
-        this.infoAmountInPayment = this.calculateTotalAmount();
-        this.infoPaymentDate = this.dateTimeService.getFullDateTimeNow();
-        this.infoPaymentId = response.data;
-        //Reset cart
-        this.clearCart();
-        this.cartConfirmation = 0;
-        this.paymentForm = undefined!;
-        this.spinner.hide();
-      },
-        error => {
-          this.toastrService.error(error.error.message, "Ödeme başarısız")
-          this.paymentForm.reset();
+      this.getCustomerId().then(customerId => {
+        let rentRequest: RentPaymentRequest = Object.assign({}, this.paymentForm.value);
+        rentRequest.customerId = customerId;
+        rentRequest.amount = this.calculateTotalAmount();
+        rentRequest.rentals = this.createRentals(customerId);
+        this.rentalService.rent(rentRequest).subscribe(response => {
+          this.toastrService.success(response.message, "Ödeme başarılı")
+          this.paymentConfirmation = 1;
+          //Set infos
+          this.infoNumberOfCarsInPayment = this.cartItems.length;
+          this.infoNumberOfDaysInPayment = this.calculateTotalRentalPeriod();
+          this.infoAmountInPayment = this.calculateTotalAmount();
+          this.infoPaymentDate = this.dateTimeService.getFullDateTimeNow();
+          this.infoPaymentId = response.data;
+          //Reset cart
+          this.clearCart();
+          this.cartConfirmation = 0;
+          this.paymentForm = undefined!;
           this.spinner.hide();
-        });
+        },
+          error => {
+            this.toastrService.error(error.error.message, "Ödeme başarısız")
+            this.paymentForm.reset();
+            this.spinner.hide();
+          });
+      }, () => {
+        this.toastrService.error("Bir sorun oluştu", "Ödeme başarısız")
+        this.paymentForm.reset();
+        this.spinner.hide();
+      })
+
     } else {
       this.toastrService.error("Lütfen kart bilgilerinizi eksiksiz doldurunuz", "Kart bilgileri eksik")
     }
+  }
+
+  getCustomerId(): Promise<number> {
+    return new Promise<number>((methodResolve) => {
+      this.customerService.getCustomerByUserId(this.currentUser.id).subscribe(successResult => {
+        methodResolve(successResult.data.id);
+      }, () => {  //If the user is not a customer, save it as a customer
+        let addedCustomer = new Customer;
+        addedCustomer.userId = this.currentUser.id;
+        addedCustomer.companyName = "Test Company Name";
+        this.customerService.addCustomer(addedCustomer).subscribe(successAddedResult => {
+          methodResolve(successAddedResult.data);
+        })
+      })
+    })
   }
 
   resetCartScreen() {
@@ -97,12 +127,12 @@ export class CartComponent implements OnInit {
     this.infoPaymentId = undefined!;
   }
 
-  createRentals(): Rental[] {
+  createRentals(customerId: number): Rental[] {
     let rentals: Rental[] = [];
     this.cartItems.forEach(cartItem => {
       let rental: Rental = new Rental;
       rental.carId = cartItem.car.id;
-      rental.customerId = 1;
+      rental.customerId = customerId;
       rental.rentDate = cartItem.rentDate;
       rental.returnDate = cartItem.returnDate;
       rentals.push(rental);

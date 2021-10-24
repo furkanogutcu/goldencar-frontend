@@ -84,7 +84,7 @@ export class AuthService {
             break;
           }
           case "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": {
-            user.id = String(detail[1]);
+            user.id = Number(detail[1]);
           }
         }
       });

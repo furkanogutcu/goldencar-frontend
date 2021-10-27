@@ -43,7 +43,7 @@
                                                 <!-- Mastercard - https://codepen.io/DevUncoded/pen/rGjpXG -->
                                                 <div class="credit-card mastercard selectable">
                                                     <div class="credit-card-last4">
-                                                        {{creditCardNumberMask(creditCard.cardNumber).substr(15,4)}}
+                                                        {{creditCard.cardNumber.substr(12,4)}}
                                                     </div>
                                                     <div class="credit-card-expiry">
                                                         {{creditCard.expireMonth}}/{{creditCard.expireYear.substr(2,2)}}
@@ -52,7 +52,7 @@
                                             </div>
                                             <div class="col-1">
                                                 <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteSavedCardConfirmModal">
+                                                    attr.data-bs-target="#deleteSavedCardConfirmModal{{i}}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                         fill="currentColor" class="bi bi-trash-fill"
                                                         viewBox="0 0 16 16">
@@ -60,7 +60,7 @@
                                                             d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                     </svg></button>
 
-                                                <div class="modal fade" id="deleteSavedCardConfirmModal"
+                                                <div class="modal fade" attr.id="deleteSavedCardConfirmModal{{i}}"
                                                     data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                                                     aria-labelledby="deleteSavedCardConfirmModalLabel"
                                                     aria-hidden="true">
@@ -73,7 +73,7 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 Sonu
-                                                                <strong>{{creditCardNumberMask(creditCard.cardNumber).substr(15,4)}}</strong>
+                                                                <strong>{{creditCard.cardNumber.substr(12,4)}}</strong>
                                                                 ile biten kayıtlı kredi kartınızı silmek
                                                                 istediğinize emin misiniz ?
                                                             </div>

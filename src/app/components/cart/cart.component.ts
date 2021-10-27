@@ -280,10 +280,4 @@ export class CartComponent implements OnInit {
   getCart() {
     this.cartItems = this.cartService.listOfCart();
   }
-
-  creditCardNumberMask(creditCardNumber: string) {
-    let result = "**** **** **** ";
-    result += creditCardNumber.substr(12, 4);
-    return result;
-  }
 }

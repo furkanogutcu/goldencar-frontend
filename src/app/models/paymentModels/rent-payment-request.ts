@@ -1,4 +1,4 @@
-import { Rental } from "./entities/rental";
+import { Rental } from "../entities/rental";
 
 export class RentPaymentRequest {
     cardNumber:string;

@@ -1,412 +1,190 @@
-<div class="row">
-    <!--Payment Div-->
-    <div *ngIf="paymentForm && cartConfirmation===1 && !paymentConfirmation" class="content col-md-7">
-        <div class="row">
-            <div class="container">
-                <div class="row">
-                    <div style="position: relative;">
-                        <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box"
-                            [fullScreen]="false">
-                            <p style="color: rgb(255, 255, 255)"> Ödeme yapılıyor... </p>
-                        </ngx-spinner>
+<div *ngIf="!confirmOrderOutputModel">
 
-                        <div class="card p-4" style="background-color: rgb(253, 253, 253);">
-                            <div class="row mt-3">
-                                <h3 class="text-center">Ödeme Detayları</h3>
-                                <img class="img-responsive cc-img" src="/assets/images/creditcardicons.png">
+    <!--Empty Cart Div-->
+    <div *ngIf="cartItems.length === 0" class="text-center mt-5 mb-5">
+
+        <h3>Sepetinizde araç bulunmamaktadır.</h3><br>
+        <button routerLink="" class="btn text-center mb-5" type="button"
+            style="background-color: var(--firstThemeColor); color: var(--secondThemeColor); border: 2px solid var(--secondThemeColor);">
+            <strong>Araç kiralamaya başla</strong>
+        </button>
+
+    </div>
+    <!--Empty Cart Div End-->
+
+    <!--Non Empty Cart Div-->
+    <div *ngIf="cartItems.length > 0">
+
+        <!--Checkout ProgressBar-->
+        <div class="progresses py-4 mb-4">
+            <ul class="d-flex align-items-center justify-content-between">
+                <li (click)="goCheckOutStep(0)" id="step-1" class="fill"></li>
+                <li (click)="checkOutStep === 2 ?  goCheckOutStep(1) : null" id="step-2"
+                    [class]="checkOutStep >= 1 ? 'fill text-nowrap' : 'text-nowrap'"></li>
+                <li id="step-3" [class]="checkOutStep === 2 ? 'fill text-nowrap' : 'text-nowrap'"></li>
+            </ul>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" [style.width]="(checkOutStep * 50)+'%'"
+                    style="background-color: var(--firstThemeColor)" aria-valuenow="25" aria-valuemin="0"
+                    aria-valuemax="100">
+                </div>
+            </div>
+        </div>
+        <!--Checkout ProgressBar End-->
+
+        <!--If Payment is Not Completed-->
+        <div *ngIf="!paymentOutputModel" class="row container">
+
+            <!--Payment-->
+            <div *ngIf="checkOutStep===1" class="card p-4" style="background-color: rgb(253, 253, 253);">
+                <div>
+                    <button (click)="goCheckOutStep(0)" class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black"
+                            class="bi bi-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="row mb-4">
+                    <app-payment [cartItems]="cartItems" (paymentOutputModel)="setPaymentOutputModel($event)">
+                    </app-payment>
+                </div>
+            </div>
+            <!--Payment End-->
+
+            <!--Cart-->
+            <div *ngIf="checkOutStep===0" class="col-md-8 card">
+
+                <div class="mt-4 mb-4">
+                    <div *ngFor="let cartItem of cartItems" class="container">
+                        <div style="display: flex; flex: 1 1 auto;">
+                            <div routerLink="/car-details/{{cartItem.car.id}}" class="d-flex align-items-center">
+                                <img class="" [src]="getImagePath(cartItem.car.carImages[0].imagePath)" height="80"
+                                    alt="..." style="object-fit: cover;">
                             </div>
-                            <!-- Switch Checkbox-->
-                            <div class="row">
-                                <div class="d-flex justify-content-center mt-3" style="font-size: 20px;">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" role="switch"
-                                            [(ngModel)]="paySavedCard">
-                                        <label *ngIf="paySavedCard" class="form-check-label"
-                                            for="flexSwitchCheckChecked">Kayıtlı kredi kartım ile öde</label>
-                                        <label *ngIf="!paySavedCard" class="form-check-label"
-                                            for="flexSwitchCheckChecked">Farklı bir kredi kartı ile öde</label>
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h6 class="card-title ">{{cartItem.car.brandName}} {{cartItem.car.modelName}}
+                                        </h6>
+
+                                        <div class="row">
+                                            <p class="card-text">
+                                                <small class="text-muted">Kiralama Süresi:
+                                                    {{showDate(cartItem.rentDate)}} -
+                                                    {{showDate(cartItem.returnDate)}}
+                                                    ({{getRentalPeriod(cartItem.rentDate,cartItem.returnDate)}}
+                                                    gün)<br></small>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- Switch Checkbox End-->
 
-                            <!-- Saved Credit Cards-->
-                            <div *ngIf="savedCreditCards && paySavedCard">
-                                <div *ngFor="let creditCard of savedCreditCards; let i = index" [attr.data-index]="i"
-                                    class="list-group mt-3">
-                                    <label class="list-group-item" style="width: 690px;">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <input class="form-check-input" type="radio" [value]="i" [id]="i"
-                                                [(ngModel)]="selectedSavedCreditCard">
-
-                                            <div class="col-10">
-                                                <!-- Mastercard - https://codepen.io/DevUncoded/pen/rGjpXG -->
-                                                <div class="credit-card mastercard selectable">
-                                                    <div class="credit-card-last4">
-                                                        {{creditCard.cardNumber.substr(12,4)}}
-                                                    </div>
-                                                    <div class="credit-card-expiry">
-                                                        {{creditCard.expireMonth}}/{{creditCard.expireYear.substr(2,2)}}
-                                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="row d-flex justify-content-end align-items-center">
+                                            <div class="col-md-7">
+                                                <p class="card-text text-danger text-nowrap">
+                                                    <strong>
+                                                        {{
+                                                        cartItem.car.dailyPrice*getRentalPeriod(cartItem.rentDate,cartItem.returnDate)|currency:"":""
+                                                        }}₺
+                                                    </strong>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="text-end">
+                                                    <button type="button" (click)="removeFromCart(cartItem.car)"
+                                                        class="btn btn-danger">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="white" class="bi bi-trash-fill" viewBox="0 0 16 16"
+                                                            style="cursor: pointer;">
+                                                            <path
+                                                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                        </svg>
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <div class="col-1">
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    attr.data-bs-target="#deleteSavedCardConfirmModal{{i}}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-trash-fill"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                    </svg></button>
-
-                                                <div class="modal fade" attr.id="deleteSavedCardConfirmModal{{i}}"
-                                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                                                    aria-labelledby="deleteSavedCardConfirmModalLabel"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title"
-                                                                    id="deleteSavedCardConfirmModalLabel">Kayıtlı
-                                                                    Kredi Kartı Silme Onayı</h5>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Sonu
-                                                                <strong>{{creditCard.cardNumber.substr(12,4)}}</strong>
-                                                                ile biten kayıtlı kredi kartınızı silmek
-                                                                istediğinize emin misiniz ?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger"
-                                                                    data-bs-dismiss="modal">İptal</button>
-                                                                <button (click)="deleteCreditCard(creditCard)"
-                                                                    data-bs-dismiss="modal" type="button"
-                                                                    class="btn btn-success">Sil</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
-                                    </label>
-                                </div>
-                            </div>
-                            <!-- Saved Credit Cards End-->
-
-                            <!-- Other Credit Cards Form-->
-                            <div *ngIf=" !savedCreditCards || !paySavedCard">
-                                <form [formGroup]="paymentForm">
-                                    <div class="mt-3 form-floating">
-                                        <input oninput="this.value = this.value.toLocaleUpperCase()" type="text"
-                                            id="cardHolderFullName" formControlName="cardHolderFullName"
-                                            placeholder="Kart üzerindeki isim" class="form-control" minlength="5"
-                                            maxlength="50" />
-                                        <label for="cardHolderFullName">Kart üzerindeki isim</label>
-                                    </div>
-                                    <!--cardHolderFullName validator info-->
-                                    <div
-                                        *ngIf="paymentForm.get('cardHolderFullName')?.invalid && 
-                                            paymentForm.get('cardHolderFullName')?.errors && 
-                                            (paymentForm.get('cardHolderFullName')?.dirty || paymentForm.get('cardHolderFullName')?.touched)">
-                                        <small class="text-danger"
-                                            *ngIf="paymentForm.get('cardHolderFullName')?.hasError('required')">
-                                            Bu alan boş olamaz!
-                                        </small>
-                                        <small class="text-danger"
-                                            *ngIf="paymentForm.get('cardHolderFullName')?.hasError('minlength')">
-                                            Bu alana en az 5 karakter girilmelidir!
-                                        </small>
-                                        <small class="text-danger"
-                                            *ngIf="paymentForm.get('cardHolderFullName')?.hasError('maxlength')">
-                                            Bu alana en fazla 50 karakter girilebilir!
-                                        </small>
-                                    </div>
-                                    <!--cardHolderFullName validator info end-->
-
-                                    <div class="mt-3 mr-2 form-floating">
-                                        <input type="text" id="cardNumber" formControlName="cardNumber"
-                                            placeholder="Kart numarası" class="form-control" mask='0000 0000 0000 0000'
-                                            minlength="16" maxlength="19" />
-                                        <label for="cardNumber">Kart numarası</label>
-                                    </div>
-                                    <!--cardNumber validator info-->
-                                    <div
-                                        *ngIf="paymentForm.get('cardNumber')?.invalid && 
-                                            paymentForm.get('cardNumber')?.errors && 
-                                            (paymentForm.get('cardNumber')?.dirty || paymentForm.get('cardNumber')?.touched)">
-                                        <small class="text-danger"
-                                            *ngIf="paymentForm.get('cardNumber')?.hasError('required')">
-                                            Bu alan boş olamaz!
-                                        </small>
-                                        <small class="text-danger"
-                                            *ngIf="paymentForm.get('cardNumber')?.hasError('minlength')">
-                                            Bu alana 16 karakter girilmelidir!
-                                        </small>
-                                        <small class="text-danger"
-                                            *ngIf="paymentForm.get('cardNumber')?.hasError('maxlength')">
-                                            Bu alana 16 karakter girilmelidir!
-                                        </small>
-                                    </div>
-                                    <!--cardNumber validator info end-->
-
-                                    <div class="row d-flex flex-row form-floating">
-                                        <div class="col-md-4">
-                                            <div class="mt-3 mr-2 form-floating">
-                                                <input type="text" id="expireMonth" formControlName="expireMonth"
-                                                    placeholder="Ay" class="form-control" mask='00' minlength="2"
-                                                    maxlength="2" />
-                                                <label for="expireMonth">Ay</label>
-                                            </div>
-                                            <!--expireMonth validator info-->
-                                            <div
-                                                *ngIf="paymentForm.get('expireMonth')?.invalid &&
-                                                    paymentForm.get('expireMonth')?.errors && 
-                                                    (paymentForm.get('expireMonth')?.dirty || paymentForm.get('expireMonth')?.touched)">
-                                                <small class="text-danger"
-                                                    *ngIf="paymentForm.get('expireMonth')?.hasError('required')">
-                                                    Bu alan boş olamaz!
-                                                </small>
-                                                <small class="text-danger"
-                                                    *ngIf="paymentForm.get('expireMonth')?.hasError('minlength')">
-                                                    Bu alana 2 karakter girilmelidir!
-                                                </small>
-                                                <small class="text-danger"
-                                                    *ngIf="paymentForm.get('expireMonth')?.hasError('maxlength')">
-                                                    Bu alana 2 karakter girilmelidir!
-                                                </small>
-                                            </div>
-                                            <!--expireMonth validator info end-->
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="mt-3 mr-2 form-floating">
-                                                <input type="text" id="expireYear" formControlName="expireYear"
-                                                    placeholder="Yıl" class="form-control" mask='0000' minlength="4"
-                                                    maxlength="4" />
-                                                <label for="expireYear">Yıl</label>
-                                            </div>
-                                            <!--expireYear validator info-->
-                                            <div
-                                                *ngIf="paymentForm.get('expireYear')?.invalid &&
-                                                    paymentForm.get('expireYear')?.errors && 
-                                                    (paymentForm.get('expireYear')?.dirty || paymentForm.get('expireYear')?.touched)">
-                                                <small class="text-danger"
-                                                    *ngIf="paymentForm.get('expireYear')?.hasError('required')">
-                                                    Bu alan boş olamaz!
-                                                </small>
-                                                <small class="text-danger"
-                                                    *ngIf="paymentForm.get('expireYear')?.hasError('minlength')">
-                                                    Bu alana 4 karakter girilmelidir!
-                                                </small>
-                                                <small class="text-danger"
-                                                    *ngIf="paymentForm.get('expireYear')?.hasError('maxlength')">
-                                                    Bu alana 4 karakter girilmelidir!
-                                                </small>
-                                            </div>
-                                            <!--expireYear validator info end-->
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="mt-3 mr-2 form-floating">
-                                                <input type="text" id="cvc" formControlName="cvc" placeholder="CVC"
-                                                    class="form-control" minlength="3" mask='000' maxlength="3" />
-                                                <label for="cvc">CVC</label>
-                                            </div>
-                                            <!--cvc validator info-->
-                                            <div
-                                                *ngIf="paymentForm.get('cvc')?.invalid &&
-                                                    paymentForm.get('cvc')?.errors && 
-                                                    (paymentForm.get('cvc')?.dirty || paymentForm.get('cvc')?.touched)">
-                                                <small class="text-danger"
-                                                    *ngIf="paymentForm.get('cvc')?.hasError('required')">
-                                                    Bu alan boş olamaz!
-                                                </small>
-                                                <small class="text-danger"
-                                                    *ngIf="paymentForm.get('cvc')?.hasError('minlength')">
-                                                    Bu alana 3 karakter girilmelidir!
-                                                </small>
-                                                <small class="text-danger"
-                                                    *ngIf="paymentForm.get('cvc')?.hasError('maxlength')">
-                                                    Bu alana 3 karakter girilmelidir!
-                                                </small>
-                                            </div>
-                                            <!--cvc validator info end-->
-                                        </div>
-                                    </div>
-                                </form>
-                                <div class="row mt-1 p-4">
-                                    <div class="form-check d-flex justify-content-center">
-                                        <label>
-                                            <input type="checkbox" value="save-credit-card"
-                                                [(ngModel)]="isCreditCardSaved" [ngModelOptions]="{standalone: true}">
-                                            Sonraki ödemeyi daha kolay yapabilmek için kart bilgilerimi kaydet
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Other Credit Cards Form End-->
-
-                            <!-- Payment Confirmation Buttons-->
-                            <div class="mt-4 mb-4 d-flex justify-content-between">
-                                <span><button (click)="unconfirmCart()" class="btn btn-danger px-3" type="submit">Sepete
-                                        dön</button></span>
-                                <button (click)="rent()" class="btn btn-success px-3" type="submit"
-                                    [disabled]="paymentForm.invalid && !paySavedCard"><strong>Öde (
-                                        {{calculateTotalAmount() |
-                                        currency:"":""}}₺ )</strong></button>
-                            </div>
-                            <!-- Payment Confirmation Buttons End-->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--Cart Div-->
-    <div *ngIf="cartConfirmation===0 && !paymentConfirmation" class="col-md-7">
-        <div *ngIf="cartItems.length!==0" class="row">
-            <h3>Sepetim ({{cartItems.length}} Araç)</h3><br>
-        </div>
-        <div *ngIf="cartItems.length===0" class="row align-items-center">
-            <div class="col-md-7">
-                <h4>Sepetinizde araç bulunmamaktadır.</h4>
-            </div>
-            <div class="col-md-5">
-                <button routerLink="" class="btn btn-primary text-center" type="button"><strong>Araç
-                        kiralamaya başla</strong></button>
-            </div>
-        </div>
-        <hr *ngIf="cartItems.length > 0" class="dropdown-divider" />
-        <div *ngFor="let cartItem of cartItems">
-            <div style="display: flex; flex: 1 1 auto;">
-                <div routerLink="/car-details/{{cartItem.car.id}}" class="d-flex align-items-center">
-                    <img class="" [src]="getImagePath(cartItem.car.carImages[0].imagePath)" height="80" alt="..."
-                        style="object-fit: cover;">
-                </div>
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-7">
-                            <h6 class="card-title ">{{cartItem.car.brandName}} {{cartItem.car.modelName}}</h6>
-
-                            <div class="row">
-                                <p class="card-text">
-                                    <small class="text-muted">Kiralama Süresi: {{showDate(cartItem.rentDate)}} -
-                                        {{showDate(cartItem.returnDate)}}
-                                        ({{getRentalPeriod(cartItem.rentDate,cartItem.returnDate)}}
-                                        gün)<br></small>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="col-md-5">
-                            <div class="row d-flex justify-content-end align-items-center">
-                                <div class="col-md-7">
-                                    <p class="card-text text-danger text-nowrap">
-                                        <strong>{{cartItem.car.dailyPrice *
-                                            getRentalPeriod(cartItem.rentDate,cartItem.returnDate) |
-                                            currency:"":""}}₺</strong>
-                                    </p>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="text-end">
-                                        <button type="button" (click)="removeFromCart(cartItem.car)"
-                                            class="btn btn-danger btn-sm">Sil</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <hr class="dropdown-divider" />
-        </div>
-    </div>
-
-    <!--Payment Successful Div-->
-    <div *ngIf="paymentConfirmation && paymentConfirmation===1" class="content col-md-7">
-        <div class="container">
-            <div style="position: relative;">
-                <div class="card p-4" style="background-color: rgb(253, 253, 253);">
-                    <div class="text-center text-success">
-                        <img class="img-responsive cc-img" src="/assets/images/success.png" height="100">
-                        <h1><strong>Ödeme Başarılı</strong></h1>
-                        <h6>Alışveriş yaptığınız için teşekkürler!</h6>
-                    </div>
-                    <div class="container text-center">
                         <hr class="dropdown-divider" />
-                        <div class="mt-3">
-                            <ul class="list-group">
-                                <li *ngIf="infoNumberOfCarsInPayment"
-                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                    Kiralanan araç sayısı:
-                                    <span>{{infoNumberOfCarsInPayment}} araç</span>
-                                </li>
-                                <li *ngIf="infoNumberOfDaysInPayment"
-                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                    Kiralanan gün sayısı:
-                                    <span>{{infoNumberOfDaysInPayment}} gün</span>
-                                </li>
-                                <li *ngIf="infoPaymentDate"
-                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                    Kiralama tarihi:
-                                    <span>{{infoPaymentDate}}</span>
-                                </li>
-                                <li *ngIf="infoPaymentId"
-                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                    Ödeme ID:
-                                    <span>{{infoPaymentId}}</span>
-                                </li>
-                                <li *ngIf="infoAmountInPayment"
-                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                    <h5><strong>Ödenen Tutar:</strong></h5>
-                                    <h5><strong><span>{{infoAmountInPayment | currency:"":""}}₺</span></strong>
-                                    </h5>
-                                </li>
-                            </ul>
-                        </div><br>
-                        <button routerLink="" class="btn btn-success">Ana menüye dön</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+            <!--Cart End-->
 
-    <!--Order Summary Div-->
-    <div class="col-md-5">
-        <div *ngIf="cartItems.length!==0" class="card">
-            <div class="card-body">
-                <h5 class="card-title">Sipariş Özeti</h5>
-                <p class="card-text">
-                <ul class="list-group">
-                    <li class="list-group-item border border-light">
-                        <small>
-                            <span class="float-start">Toplam kiralanan araç sayısı:</span>
-                            <span class="float-end"><strong>{{cartItems.length}} araç</strong></span>
-                        </small>
-                    </li>
-                    <li class="list-group-item border border-light">
-                        <small>
-                            <span class="float-start">Toplam kiralama süresi: </span>
-                            <span class="float-end"><strong>{{calculateTotalRentalPeriod()}} gün</strong></span>
-                        </small>
-                    </li>
-                    <li class="list-group-item border border-light">
-                        <small>
-                            <span class="float-start">Ödenecek tutar: </span></small>
-                        <span class="float-end text-danger">
-                            <strong>{{calculateTotalAmount() | currency:"":""}}₺</strong>
-                        </span>
-                    </li>
-                    <li *ngIf="cartConfirmation===0" class="list-group border border-light"><br>
-                        <span class="d-flex flex-column float-end">
-                            <a (click)="createPaymentForm()" (click)="confirmCart()" class="btn btn-success">Sepeti
-                                Onayla</a>
-                        </span>
-                    </li>
-                </ul>
+            <!--Order Summary-->
+            <div *ngIf="checkOutStep === 0" class="col-md-4">
+                <div *ngIf="cartItems.length!==0" class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Sipariş Özeti</h5>
+                        <p class="card-text">
+                        <ul class="list-group">
+                            <li class="list-group-item border border-light">
+                                <small>
+                                    <span class="float-start">Toplam kiralanan araç sayısı:</span>
+                                    <span class="float-end"><strong>{{cartItems.length}} araç</strong></span>
+                                </small>
+                            </li>
+                            <li class="list-group-item border border-light">
+                                <small>
+                                    <span class="float-start">Toplam kiralama süresi: </span>
+                                    <span class="float-end">
+                                        <strong>
+                                            {{calculateTotalRentalPeriod()}} gün
+                                        </strong>
+                                    </span>
+                                </small>
+                            </li>
+                            <li class="list-group-item border border-light">
+                                <small>
+                                    <span class="float-start">Ödenecek tutar: </span>
+                                </small>
+                                <span class="float-end text-danger">
+                                    <strong>{{calculateTotalAmount() | currency:"":""}}₺</strong>
+                                </span>
+                            </li>
+                            <li *ngIf="checkOutStep===0" class="list-group border border-light"><br>
+                                <span class="d-flex flex-column float-end">
+                                    <a (click)="confirmCart()" class="btn btn-success">Sepeti Onayla</a>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--Order Summary End-->
+        </div>
+        <!--If Payment is Not Completed End-->
+
+        <!--If Payment is Completed-->
+        <div *ngIf="paymentOutputModel" class="container">
+            <div class="card p-4" style="background-color: rgb(253, 253, 253);">
+                <!--Back Button-->
+                <div>
+                    <button (click)="goCheckOutStep(1)" class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black"
+                            class="bi bi-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                        </svg>
+                    </button>
+                </div>
+                <!--Back Button End-->
+
+                <app-confirm-order [confirmOrderInputModel]="createConfirmOrderInputModel()"
+                    (confirmOrderOutputModel)="setConfirmOrderOutputModel($event)"></app-confirm-order>
             </div>
         </div>
+        <!--If Payment is Completed End-->
     </div>
+    <!--Non Empty Cart Div End-->
 </div>
+
+<!--Payment Successful Div-->
+<div *ngIf="confirmOrderOutputModel" class="container">
+    <app-payment-successful [confirmOrderOutputModel]="confirmOrderOutputModel"></app-payment-successful>
+</div>
+<!--Payment Successful Div End-->

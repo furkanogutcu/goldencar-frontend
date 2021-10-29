@@ -43,6 +43,9 @@ import { AccountLayoutComponent } from './components/account/account-layout/acco
 import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeLayoutComponent } from './components/home-layout/home-layout.component';
+import { PaymentComponent } from './components/payment/payment.component';
+import { ConfirmOrderComponent } from './components/confirm-order/confirm-order.component';
+import { PaymentSuccessfulComponent } from './components/payment-successful/payment-successful.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +81,9 @@ import { HomeLayoutComponent } from './components/home-layout/home-layout.compon
     AdminLayoutComponent,
     FooterComponent,
     HomeLayoutComponent,
+    PaymentComponent,
+    ConfirmOrderComponent,
+    PaymentSuccessfulComponent,
   ],
   imports: [
     BrowserModule,

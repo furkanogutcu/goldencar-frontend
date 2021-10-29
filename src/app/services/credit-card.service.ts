@@ -1,4 +1,4 @@
-import { CustomerCreditCardModel } from './../models/customerCreditCardModel';
+import { CustomerCreditCardModel } from '../models/paymentModels/customerCreditCardModel';
 import { CreditCard } from './../models/entities/credit-card';
 import { ListResponseModel } from './../models/responseModels/listResponseModel';
 import { HttpClient } from '@angular/common/http';

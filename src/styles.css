@@ -126,3 +126,102 @@ hr.solid {
   border-radius: 50%;
   box-shadow: inset 0 0 0 2px white, 0 0 0 4px white;
 }
+
+/* Payment Credit Card - https://codepen.io/jamesdelaneyie/pen/dYVOgz */
+
+.credit-card-base {
+  font-family: Share Tech Mono;
+  background-color: #9ba7b2;
+  display: block;
+  width: calc(681.9px * var(--card-scale));
+  border-radius: calc(20px * var(--card-scale));
+  -webkit-box-shadow: 0px 0px calc(10px * var(--card-scale)) 0px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 0px calc(10px * var(--card-scale)) 0px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px calc(10px * var(--card-scale)) 0px rgba(0, 0, 0, 1);
+  border: calc(1px * var(--card-scale)) solid grey;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: calc(430px * var(--card-scale));
+  background: linear-gradient(-125deg, #1d3349, #06121e 55%);
+}
+
+img.credit-card-chip {
+  width: calc(200px * var(--card-scale));
+  position: absolute;
+  margin-top: calc(45px * var(--card-scale));
+  margin-left: calc(16px * var(--card-scale));
+}
+
+.credit-card-emboss {
+  font-family: Share Tech Mono;
+  color: transparent;
+  text-shadow: 
+    calc(-2px * var(--card-scale)) calc(-2px * var(--card-scale)) calc(2px * var(--card-scale)) rgba(255, 255, 255, 1),
+    calc(1px * var(--card-scale)) calc(1px * var(--card-scale)) calc(1px * var(--card-scale)) rgba(0, 0, 0, 0.9),
+    calc(2px * var(--card-scale)) calc(-2px * var(--card-scale)) calc(4px * var(--card-scale)) rgba(255, 255, 255, 1),
+    calc(-2px * var(--card-scale)) calc(-2px * var(--card-scale)) calc(2px * var(--card-scale)) rgba(0, 0, 0, 0.9),
+    calc(-2px * var(--card-scale)) calc(2px * var(--card-scale)) calc(1px * var(--card-scale)) rgba(0, 0, 0, 0.9);
+  -webkit-text-stroke: calc(2px * var(--card-scale)) rgba(0, 0, 0, 0.4);
+}
+
+.credit-card-number {
+  display: inline-block;
+  margin-top: calc(210px * var(--card-scale));
+  font-size: calc(49px * var(--card-scale));
+  margin-left: calc(50px * var(--card-scale));
+  position: relative;
+  z-index: 999;
+}
+
+.credit-card-holder-name {
+  font-size: calc(32px * var(--card-scale));
+  padding-left: calc(21px * var(--card-scale));
+  text-shadow: 
+    calc(-2px * var(--card-scale)) calc(-1px * var(--card-scale)) calc(1px * var(--card-scale)) rgba(255, 255, 255, 1),
+    calc(1px * var(--card-scale)) calc(1px * var(--card-scale)) calc(1px * var(--card-scale)) rgba(0, 0, 0, 1),
+    calc(1px * var(--card-scale)) 0px calc(1px * var(--card-scale))rgba(255, 255, 255, 1),
+    calc(-1px * var(--card-scale)) calc(-1px * var(--card-scale)) calc(1px * var(--card-scale)) rgba(0, 0, 0, 1),
+    calc(-1px * var(--card-scale)) calc(1px * var(--card-scale)) calc(1px * var(--card-scale)) rgba(0, 0, 0, 1);
+  -webkit-text-stroke: calc(1px * var(--card-scale)) rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  padding-top: calc(14px * var(--card-scale));
+}
+
+.credit-card-small-type {
+  font-family: sans-serif;
+  font-size: calc(15px * var(--card-scale));
+  text-transform: uppercase;
+  color: white;
+  padding-left: calc(125px * var(--card-scale));
+  line-height: calc(7px * var(--card-scale));
+  letter-spacing: calc(0.7px * var(--card-scale));
+  opacity: 0.7;
+}
+
+.credit-card-expire {
+  font-size: calc(28px * var(--card-scale));
+  padding-left: calc(6px * var(--card-scale));
+  text-shadow: 
+    calc(-2px * var(--card-scale)) calc(-1px * var(--card-scale)) calc(1px * var(--card-scale)) rgba(255, 255, 255, 1),
+    calc(1px * var(--card-scale)) calc(1px * var(--card-scale)) calc(1px * var(--card-scale)) rgba(0, 0, 0, 1),
+    calc(1px * var(--card-scale)) 0px calc(1px * var(--card-scale))rgba(255, 255, 255, 1),
+    calc(-1px * var(--card-scale)) calc(-1px * var(--card-scale)) calc(1px * var(--card-scale)) rgba(0, 0, 0, 1),
+    calc(-1px * var(--card-scale)) calc(1px * var(--card-scale)) calc(1px * var(--card-scale)) rgba(0, 0, 0, 1);
+  -webkit-text-stroke: calc(1px * var(--card-scale)) rgba(0, 0, 0, 0.2);
+  -webkit-text-stroke: calc(1px * var(--card-scale)) rgba(0, 0, 0, 0.2);
+}
+
+.credit-card-logo[src="/assets/images/visa.png"] {
+  width: calc(160px * var(--card-scale));
+  margin-left: calc(460px * var(--card-scale));
+  margin-top: calc(-150px * var(--card-scale));
+}
+
+.credit-card-logo[src="/assets/images/master-card.png"] {
+  width: calc(160px * var(--card-scale));
+  margin-left: calc(470px * var(--card-scale));
+  margin-top: calc(-170px * var(--card-scale));
+}

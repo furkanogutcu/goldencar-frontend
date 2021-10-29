@@ -1,0 +1,363 @@
+<div style="position: relative;">
+    <div class="row mt-3">
+        <h1 class="text-center">Ödeme Bilgileri</h1>
+
+        <!-- Switch Checkbox-->
+        <div *ngIf="savedCreditCards.length > 0" class="row mb-4">
+            <div class="d-flex justify-content-center mt-3" style="font-size: 18px;">
+                <div class="form-check form-switch">
+                    <input (click)="resetSelectedSavedCreditCard()" class="form-check-input" type="checkbox"
+                        role="switch" [(ngModel)]="paySavedCard">
+                    <label class="form-check-label" for="flexSwitchCheckChecked">Kayıtlı kredi kartı ile ödeme</label>
+                </div>
+            </div>
+        </div>
+        <!-- Switch Checkbox End-->
+
+    </div>
+
+    <!-- Pay With Saved Credit Cards-->
+    <div *ngIf="savedCreditCards.length > 0 && paySavedCard === true">
+        <div id="savedCreditCardsCarouselControls" class="carousel carousel-dark slide" data-bs-ride="carousel"
+            data-bs-wrap="false" data-bs-interval="false">
+            <div class="carousel-inner container" style="width: 750px;">
+
+                <div *ngFor="let creditCard of savedCreditCards; let i = index" [attr.data-index]="i"
+                    class="{{(i == 0) ? 'carousel-item active' : 'carousel-item' }}">
+                    <div class="d-flex justify-content-center">
+
+                        <!--Saved Credit Card-->
+                        <div class="card-holder" style="--card-scale:0.8">
+                            <div class="credit-card-base">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <img class="credit-card-chip" src="/assets/images/credit-card-chip.png">
+                                    </div>
+                                    <div class="col-3">
+
+                                        <!--Delete Saved Credit Card Button-->
+                                        <div class="text-center mt-4">
+                                            <div data-bs-toggle="modal"
+                                                attr.data-bs-target="#deleteSavedCardConfirmModal{{i}}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                                    fill="white" class="bi bi-trash-fill" viewBox="0 0 16 16"
+                                                    style="cursor: pointer;">
+                                                    <path
+                                                        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <!--Delete Saved Credit Card Button End-->
+
+                                    </div>
+                                </div>
+
+                                <span class="credit-card-emboss credit-card-number" style="margin-top: 120px;">
+                                    {{'**** **** **** ' + creditCard.cardNumber.substr(12,4)}}
+                                </span><br><br><br>
+                                <span class="credit-card-emboss credit-card-holder-name">
+                                    {{creditCard.cardHolderFullName}}
+                                </span>
+                            </div>
+                            <img class="credit-card-logo" style="margin-left: 390px;"
+                                [src]="getCreditCardLogoSource(creditCard.cardNumber)">
+                        </div>
+                        <!--Saved Credit Card End-->
+
+                    </div>
+
+                    <!--Saved Credit Card Delete Confirmation Modal-->
+                    <div class="modal fade" attr.id="deleteSavedCardConfirmModal{{i}}" data-bs-backdrop="static"
+                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteSavedCardConfirmModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteSavedCardConfirmModalLabel">
+                                        Kayıtlı Kredi Kartı Silme Onayı
+                                    </h5>
+                                </div>
+                                <div class="modal-body">
+                                    Sonu <strong>{{creditCard.cardNumber.substr(12,4)}}</strong> ile biten kayıtlı kredi
+                                    kartınızı silmek istediğinize emin misiniz ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">İptal</button>
+                                    <button (click)="deleteCreditCard(creditCard)" data-bs-dismiss="modal" type="button"
+                                        class="btn btn-success">Sil</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Saved Credit Card Delete Confirmation Modal End-->
+
+                    <!--Saved Credit Card Pay Confirmation Modal-->
+                    <div class="modal fade" attr.id="PaySavedCardConfirmModal{{i}}" data-bs-backdrop="static"
+                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="PaySavedCardConfirmModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="PaySavedCardConfirmModalLabel">
+                                        Kayıtlı Kredi Kartı İle Ödeme Onayı
+                                    </h5>
+                                </div>
+                                <div class="modal-body">
+                                    Sonu <strong>{{creditCard.cardNumber.substr(12,4)}}</strong> ile biten kayıtlı kredi
+                                    kartınız ile {{calculateTotalAmount() | currency:"":""}}₺ tutarındaki alışverişinizi
+                                    ödemeyi onaylıyor musunuz ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">İptal</button>
+                                    <button (click)="confirmCreditCard()" data-bs-dismiss="modal" type="button"
+                                        class="btn btn-success">Onayla</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Saved Credit Card Pay Confirmation Modal End-->
+
+                </div>
+                <button (click)="decreaseSelectedCreditCardIndex()" class="carousel-control-prev" type="button"
+                    data-bs-target="#savedCreditCardsCarouselControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button (click)="increaseSelectedCreditCardIndex()" class="carousel-control-next" type="button"
+                    data-bs-target="#savedCreditCardsCarouselControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Payment Confirmation Button With Saved Credit Card-->
+        <div class="mt-3 mb-2 text-center">
+            <div *ngIf="paySavedCard">
+                <button data-bs-toggle="modal"
+                    attr.data-bs-target="#PaySavedCardConfirmModal{{selectedSavedCreditCard}}"
+                    class="btn btn-success px-3" type="submit" [disabled]="paymentForm.invalid && !paySavedCard">
+                    <strong>Kayıtlı kredi kartımla öde ( {{calculateTotalAmount() | currency:"":""}}₺ )</strong>
+                </button>
+            </div>
+        </div>
+        <!-- Payment Confirmation Button With Saved Credit Card End-->
+
+    </div>
+    <!-- Pay With Saved Credit Cards End-->
+
+    <!-- Pay With Other Credit Cards -->
+    <div *ngIf="paySavedCard===false">
+        <div class="row">
+            <div class="col-6">
+
+                <!--Credit Card-->
+                <div class="mt-4">
+                    <div class="card-holder" style="--card-scale:0.7">
+                        <div class="credit-card-base">
+                            <img class="credit-card-chip" src="/assets/images/credit-card-chip.png"><br>
+                            <span class="credit-card-emboss credit-card-number">
+                                {{
+                                paymentForm.get("cardNumber")?.value == '' ||
+                                paymentForm.get("cardNumber")?.value == null
+                                ? "**** **** **** ****"
+                                : paymentForm.get("cardNumber")?.value | mask:'0000 0000 0000 0000'
+                                }}
+                            </span><br>
+                            <span class="credit-card-small-type">VALID THRU</span>
+                            <span class="credit-card-emboss credit-card-expire">
+                                {{
+                                paymentForm.get("expireMonth")?.value == '' ||
+                                paymentForm.get("expireMonth")?.value == null
+                                ? "**"
+                                : paymentForm.get("expireMonth")?.value}}/{{paymentForm.get("expireYear")?.value==''||
+                                paymentForm.get("expireYear")?.value == null
+                                ? "****"
+                                : paymentForm.get("expireYear")?.value}}
+                            </span><br>
+                            <span class="credit-card-emboss credit-card-holder-name">
+                                {{paymentForm.get("cardHolderFullName")?.value}}
+                            </span>
+                        </div>
+                        <img class="credit-card-logo" style="margin-left: 405px;"
+                            [src]="getCreditCardLogoSource(this.paymentForm.get('cardNumber')?.value)">
+                    </div>
+                </div>
+                <!--Credit Card End-->
+
+            </div>
+
+            <div class="col-6">
+                <form [formGroup]="paymentForm">
+
+                    <!--cardHolderFullName input-->
+                    <div class="mt-3 form-floating">
+                        <input oninput="this.value = this.value.toLocaleUpperCase()" type="text" id="cardHolderFullName"
+                            formControlName="cardHolderFullName" placeholder="Kart üzerindeki isim" class="form-control"
+                            minlength="5" maxlength="25" />
+                        <label for="cardHolderFullName">Kart üzerindeki isim</label>
+                    </div>
+                    <!--cardHolderFullName input end-->
+
+                    <!--cardHolderFullName validator info-->
+                    <div *ngIf="paymentForm.get('cardHolderFullName')?.invalid && 
+                            paymentForm.get('cardHolderFullName')?.errors && 
+                            (paymentForm.get('cardHolderFullName')?.dirty ||
+                            paymentForm.get('cardHolderFullName')?.touched)">
+                        <small class="text-danger" *ngIf="paymentForm.get('cardHolderFullName')?.hasError('required')">
+                            Bu alan boş olamaz!
+                        </small>
+                        <small class="text-danger" *ngIf="paymentForm.get('cardHolderFullName')?.hasError('minlength')">
+                            Bu alana en az 5 karakter girilmelidir!
+                        </small>
+                        <small class="text-danger" *ngIf="paymentForm.get('cardHolderFullName')?.hasError('maxlength')">
+                            Bu alana en fazla 50 karakter girilebilir!
+                        </small>
+                    </div>
+                    <!--cardHolderFullName validator info end-->
+
+                    <!--cardNumber input-->
+                    <div class="mt-3 mr-2 form-floating">
+                        <input type="text" id="cardNumber" formControlName="cardNumber" placeholder="Kart numarası"
+                            class="form-control" mask='0000 0000 0000 0000' minlength="16" maxlength="19" />
+                        <label for="cardNumber">Kart numarası</label>
+                    </div>
+                    <!--cardNumber input end-->
+
+                    <!--cardNumber validator info-->
+                    <div *ngIf="paymentForm.get('cardNumber')?.invalid && 
+                            paymentForm.get('cardNumber')?.errors && 
+                            (paymentForm.get('cardNumber')?.dirty ||
+                            paymentForm.get('cardNumber')?.touched)">
+                        <small class="text-danger" *ngIf="paymentForm.get('cardNumber')?.hasError('required')">
+                            Bu alan boş olamaz!
+                        </small>
+                        <small class="text-danger" *ngIf="paymentForm.get('cardNumber')?.hasError('minlength')">
+                            Bu alana 16 karakter girilmelidir!
+                        </small>
+                        <small class="text-danger" *ngIf="paymentForm.get('cardNumber')?.hasError('maxlength')">
+                            Bu alana 16 karakter girilmelidir!
+                        </small>
+                    </div>
+                    <!--cardNumber validator info end-->
+
+                    <div class="row d-flex flex-row form-floating">
+                        <div class="col-md-4">
+
+                            <!--expireMonth input-->
+                            <div class="mt-3 mr-2 form-floating">
+                                <input type="text" id="expireMonth" formControlName="expireMonth" placeholder="Ay"
+                                    class="form-control" mask='00' minlength="2" maxlength="2" />
+                                <label for="expireMonth">Ay</label>
+                            </div>
+                            <!--expireMonth input end-->
+
+                            <!--expireMonth validator info-->
+                            <div *ngIf="paymentForm.get('expireMonth')?.invalid &&
+                                    paymentForm.get('expireMonth')?.errors && 
+                                    (paymentForm.get('expireMonth')?.dirty ||
+                                    paymentForm.get('expireMonth')?.touched)">
+                                <small class="text-danger" *ngIf="paymentForm.get('expireMonth')?.hasError('required')">
+                                    Bu alan boş olamaz!
+                                </small>
+                                <small class="text-danger"
+                                    *ngIf="paymentForm.get('expireMonth')?.hasError('minlength')">
+                                    Bu alana 2 karakter girilmelidir!
+                                </small>
+                                <small class="text-danger"
+                                    *ngIf="paymentForm.get('expireMonth')?.hasError('maxlength')">
+                                    Bu alana 2 karakter girilmelidir!
+                                </small>
+                            </div>
+                            <!--expireMonth validator info end-->
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <!--expireYear input-->
+                            <div class="mt-3 mr-2 form-floating">
+                                <input type="text" id="expireYear" formControlName="expireYear" placeholder="Yıl"
+                                    class="form-control" mask='0000' minlength="4" maxlength="4" />
+                                <label for="expireYear">Yıl</label>
+                            </div>
+                            <!--expireYear input end-->
+
+                            <!--expireYear validator info-->
+                            <div *ngIf="paymentForm.get('expireYear')?.invalid &&
+                                    paymentForm.get('expireYear')?.errors && 
+                                    (paymentForm.get('expireYear')?.dirty ||
+                                    paymentForm.get('expireYear')?.touched)">
+                                <small class="text-danger" *ngIf="paymentForm.get('expireYear')?.hasError('required')">
+                                    Bu alan boş olamaz!
+                                </small>
+                                <small class="text-danger" *ngIf="paymentForm.get('expireYear')?.hasError('minlength')">
+                                    Bu alana 4 karakter girilmelidir!
+                                </small>
+                                <small class="text-danger" *ngIf="paymentForm.get('expireYear')?.hasError('maxlength')">
+                                    Bu alana 4 karakter girilmelidir!
+                                </small>
+                            </div>
+                            <!--expireYear validator info end-->
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <!--cvc input-->
+                            <div class="mt-3 mr-2 form-floating">
+                                <input type="text" id="cvc" formControlName="cvc" placeholder="CVC" class="form-control"
+                                    minlength="3" mask='000' maxlength="3" />
+                                <label for="cvc">CVC</label>
+                            </div>
+                            <!--cvc input end-->
+
+                            <!--cvc validator info-->
+                            <div *ngIf="paymentForm.get('cvc')?.invalid &&
+                                    paymentForm.get('cvc')?.errors && 
+                                    (paymentForm.get('cvc')?.dirty ||
+                                    paymentForm.get('cvc')?.touched)">
+                                <small class="text-danger" *ngIf="paymentForm.get('cvc')?.hasError('required')">
+                                    Bu alan boş olamaz!
+                                </small>
+                                <small class="text-danger" *ngIf="paymentForm.get('cvc')?.hasError('minlength')">
+                                    Bu alana 3 karakter girilmelidir!
+                                </small>
+                                <small class="text-danger" *ngIf="paymentForm.get('cvc')?.hasError('maxlength')">
+                                    Bu alana 3 karakter girilmelidir!
+                                </small>
+                            </div>
+                            <!--cvc validator info end-->
+
+                        </div>
+                    </div>
+                </form>
+                <div class="row mt-1 p-4">
+
+                    <!--Save Credit Card CheckBox-->
+                    <div class="form-check d-flex justify-content-center">
+                        <label>
+                            <input type="checkbox" value="save-credit-card" [(ngModel)]="isCreditCardSaving"
+                                [ngModelOptions]="{standalone: true}">
+                            Sonraki ödemeyi daha kolay yapabilmek için kart bilgilerimi kaydet
+                        </label>
+                    </div>
+                    <!--Save Credit Card CheckBox End-->
+
+                </div>
+
+                <!-- Payment Confirmation Button With Other Credit Card -->
+                <div *ngIf="!paySavedCard" class="d-grid gap-2">
+                    <button (click)="confirmCreditCard()" class="btn btn-success px-3" type="submit"
+                        [disabled]="paymentForm.invalid && !paySavedCard">
+                        <strong>Öde ({{calculateTotalAmount() | currency:"":""}}₺ )</strong>
+                    </button>
+                </div>
+                <!-- Payment Confirmation Button With Other Credit Card End-->
+
+            </div>
+        </div>
+    </div>
+    <!-- Pay With Other Credit Cards End-->
+
+</div>

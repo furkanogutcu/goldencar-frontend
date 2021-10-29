@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Rental } from '../models/entities/rental';
-import { RentPaymentRequest } from '../models/rent-payment-request';
+import { RentPaymentRequest } from '../models/paymentModels/rent-payment-request';
 import { ListResponseModel } from '../models/responseModels/listResponseModel';
 import { SingleResponseModel } from '../models/responseModels/singleResponseModel';
 

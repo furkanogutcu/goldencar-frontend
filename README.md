@@ -184,28 +184,31 @@ GoldenCar is a car rental web application. It allows users to view, review and r
 
   <br>
   
-  <h3 align="center">BRAND MANAGEMENT</h3>
-  <h4 align="center">Note: Only admin can access</h4>
+  <h3 align="center">BRAND MANAGEMENT</h3> 
   
   ---
+  
+  <h4 align="center">Note: Only admin can access</h4>
   
   ![](https://raw.githubusercontent.com/furkanogutcu/goldencar-frontend/master/project-images/22-brand-management.PNG)
 
   <br>
   
   <h3 align="center">COLOR MANAGEMENT</h3>
-  <h4 align="center">Note: Only admin can access</h4>
   
   ---
+  
+  <h4 align="center">Note: Only admin can access</h4>
 
   ![](https://raw.githubusercontent.com/furkanogutcu/goldencar-frontend/master/project-images/23-color-management.PNG)
 
   <br>
   
   <h3 align="center">CAR MANAGEMENT</h3>
-  <h4 align="center">Note: Only admin can access</h4>
   
   ---
+  
+  <h4 align="center">Note: Only admin can access</h4>
   
   ![](https://raw.githubusercontent.com/furkanogutcu/goldencar-frontend/master/project-images/24-car-management.PNG)
 

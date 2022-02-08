@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { FormGroup } from '@angular/forms'
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { BrandService } from 'src/app/services/brand.service';
-import { ErrorServiceService } from 'src/app/services/error-service.service';
+import { ErrorService } from 'src/app/services/error.service';
+import { FormService } from 'src/app/services/form.service';
 
 @Component({
   selector: 'app-brand-add',
@@ -13,20 +14,19 @@ import { ErrorServiceService } from 'src/app/services/error-service.service';
 export class BrandAddComponent implements OnInit {
   brandAddForm: FormGroup;
   constructor(
-    private formBuilder: FormBuilder,
     private brandService: BrandService,
     private toastrService: ToastrService,
     private brandAddModal: MatDialogRef<BrandAddComponent>,
-    private errorService: ErrorServiceService) { }
+    private errorService: ErrorService,
+    private formService: FormService
+  ) { }
 
   ngOnInit(): void {
     this.createBrandAddForm();
   }
 
   createBrandAddForm() {
-    this.brandAddForm = this.formBuilder.group({
-      name: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(50)]]
-    })
+    this.brandAddForm = this.formService.createBrandForm();
   }
 
   closeBrandAddModal() {

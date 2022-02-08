@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class ErrorServiceService {
+export class ErrorService {
 
   constructor(private toastrService: ToastrService) { }
 

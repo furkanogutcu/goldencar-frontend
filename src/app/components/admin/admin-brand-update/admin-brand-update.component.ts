@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Brand } from 'src/app/models/entities/brand';
 import { BrandService } from 'src/app/services/brand.service';
-import { ErrorServiceService } from 'src/app/services/error-service.service';
+import { ErrorService } from 'src/app/services/error.service';
+import { FormService } from 'src/app/services/form.service';
 
 @Component({
   selector: 'app-brand-update',
@@ -17,10 +18,10 @@ export class BrandUpdateComponent implements OnInit {
 
   constructor(
     private brandService: BrandService,
-    private formBuilder: FormBuilder,
     private toastrService: ToastrService,
     private updateModal: MatDialogRef<BrandUpdateComponent>,
-    private errorService: ErrorServiceService
+    private errorService: ErrorService,
+    private formService: FormService
   ) { }
 
   ngOnInit(): void {
@@ -55,8 +56,6 @@ export class BrandUpdateComponent implements OnInit {
   }
 
   createBrandUpdateForm() {
-    this.brandUpdateForm = this.formBuilder.group({
-      name: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(50)]]
-    });
+    this.brandUpdateForm = this.formService.createBrandForm();
   }
 }

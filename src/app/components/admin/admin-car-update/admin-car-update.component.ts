@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Brand } from 'src/app/models/entities/brand';
@@ -11,7 +11,8 @@ import { BrandService } from 'src/app/services/brand.service';
 import { CarImagesService } from 'src/app/services/car-images.service';
 import { CarService } from 'src/app/services/car.service';
 import { ColorService } from 'src/app/services/color.service';
-import { ErrorServiceService } from 'src/app/services/error-service.service';
+import { ErrorService } from 'src/app/services/error.service';
+import { FormService } from 'src/app/services/form.service';
 
 @Component({
   selector: 'app-car-update',
@@ -33,11 +34,11 @@ export class CarUpdateComponent implements OnInit {
     private carUpdateModal: MatDialogRef<CarUpdateComponent>,
     private colorService: ColorService,
     private brandService: BrandService,
-    private formBuilder: FormBuilder,
     private carImageService: CarImagesService,
     private toastrService: ToastrService,
     private carService: CarService,
-    private errorService: ErrorServiceService
+    private errorService: ErrorService,
+    private formService: FormService
   ) { }
 
   ngOnInit(): void {
@@ -278,14 +279,7 @@ export class CarUpdateComponent implements OnInit {
   }
 
   private createCarUpdateForm() {
-    this.carUpdateForm = this.formBuilder.group({
-      brandId: ["", [Validators.required, Validators.pattern("^[0-9]*$"), Validators.min(1)]],
-      colorId: ["", [Validators.required, Validators.pattern("^[0-9]*$"), Validators.min(1)]],
-      modelName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      modelYear: ["", [Validators.required, Validators.pattern("^[0-9]*$")]],
-      dailyPrice: ["", [Validators.required, Validators.pattern("^[0-9]*$"), Validators.min(1)]],
-      description: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(50)]]
-    })
+    this.carUpdateForm = this.formService.createCarForm();
     this.autoFillFieldsInCarUpdateForm();
   }
 

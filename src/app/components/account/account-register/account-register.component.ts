@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
-import { ErrorServiceService } from 'src/app/services/error-service.service';
+import { ErrorService } from 'src/app/services/error.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ConfirmedValidator } from 'src/app/validators/confirmed.validator';
 
@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
     private toastrService: ToastrService,
     private localStorageService: LocalStorageService,
     private router: Router,
-    private errorService:ErrorServiceService
+    private errorService:ErrorService
   ) { }
 
   ngOnInit(): void {

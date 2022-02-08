@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ColorService } from 'src/app/services/color.service';
-import { ErrorServiceService } from 'src/app/services/error-service.service';
+import { ErrorService } from 'src/app/services/error.service';
+import { FormService } from 'src/app/services/form.service';
 
 @Component({
   selector: 'app-color-add',
@@ -14,10 +15,10 @@ export class ColorAddComponent implements OnInit {
   colorAddForm: FormGroup;
   constructor(
     private colorAddModal: MatDialogRef<ColorAddComponent>,
-    private formBuilder: FormBuilder,
     private colorService: ColorService,
     private toastrService: ToastrService,
-    private errorService: ErrorServiceService
+    private errorService: ErrorService,
+    private formService: FormService,
   ) { }
 
   ngOnInit(): void {
@@ -25,9 +26,7 @@ export class ColorAddComponent implements OnInit {
   }
 
   createColorAddForm() {
-    this.colorAddForm = this.formBuilder.group({
-      name: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(50)]]
-    })
+    this.colorAddForm = this.formService.createColorForm();
   }
 
   closeColorAddModal() {

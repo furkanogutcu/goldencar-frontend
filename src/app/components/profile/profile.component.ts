@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { UserForLogin } from 'src/app/models/auth/userForLogin';
 import { User } from 'src/app/models/entities/user';
 import { AuthService } from 'src/app/services/auth.service';
-import { ErrorServiceService } from 'src/app/services/error-service.service';
+import { ErrorService } from 'src/app/services/error.service';
 import { UserService } from 'src/app/services/user.service';
 import { ConfirmedValidator } from 'src/app/validators/confirmed.validator';
 
@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private router: Router,
-    private errorService: ErrorServiceService
+    private errorService: ErrorService
   ) { }
 
   ngOnInit(): void {

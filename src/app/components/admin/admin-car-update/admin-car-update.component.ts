@@ -11,6 +11,7 @@ import { BrandService } from 'src/app/services/brand.service';
 import { CarImagesService } from 'src/app/services/car-images.service';
 import { CarService } from 'src/app/services/car.service';
 import { ColorService } from 'src/app/services/color.service';
+import { ErrorServiceService } from 'src/app/services/error-service.service';
 
 @Component({
   selector: 'app-car-update',
@@ -36,6 +37,7 @@ export class CarUpdateComponent implements OnInit {
     private carImageService: CarImagesService,
     private toastrService: ToastrService,
     private carService: CarService,
+    private errorService: ErrorServiceService
   ) { }
 
   ngOnInit(): void {
@@ -70,17 +72,8 @@ export class CarUpdateComponent implements OnInit {
                 this.toastrService.success("Araç başarıyla güncellendi", "Araç güncellendi")
                 this.closeCarUpdateModal();
               }
-            }, updateFail => {
-              //Back-end Validation Errors
-              if (updateFail.error.ValidationErrors && updateFail.error.ValidationErrors.length > 0) {
-                for (let i = 0; i < updateFail.error.ValidationErrors.length; i++) {
-                  this.toastrService.error(updateFail.error.ValidationErrors[i].ErrorMessage, "Doğrulama hatası")
-                }
-              }
-              //Back-end Validation ok but other errors
-              else {
-                this.toastrService.error(updateFail.error.message, "Araç güncellenemedi")
-              }
+            }, errorResponse => {
+              this.errorService.showBackendError(errorResponse, "Araç güncellenemedi");
             })
           });
         }
@@ -93,16 +86,12 @@ export class CarUpdateComponent implements OnInit {
   }
 
   private checkIfCarObjectChanged(newCarObject: any, oldCarObject: Car,) {
-    if (newCarObject.brandId == oldCarObject.brandId &&
+    return !(newCarObject.brandId == oldCarObject.brandId &&
       newCarObject.colorId == oldCarObject.colorId &&
       newCarObject.modelName == oldCarObject.modelName &&
       newCarObject.modelYear == oldCarObject.modelYear &&
       newCarObject.dailyPrice == oldCarObject.dailyPrice &&
-      newCarObject.description == oldCarObject.description) {
-      return false;
-    } else {
-      return true;
-    }
+      newCarObject.description == oldCarObject.description)
   }
 
   private updateCarImages(deletedImages: CarImage[], uploadFiles: UploadFile[]): Promise<string> {

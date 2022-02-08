@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Color } from 'src/app/models/entities/color';
 import { ColorService } from 'src/app/services/color.service';
+import { ErrorServiceService } from 'src/app/services/error-service.service';
 
 @Component({
   selector: 'app-color-update',
@@ -17,7 +18,8 @@ export class ColorUpdateComponent implements OnInit {
     private updateColorModal: MatDialogRef<ColorUpdateComponent>,
     private colorService: ColorService,
     private formBuilder: FormBuilder,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private errorService: ErrorServiceService
   ) { }
 
   ngOnInit(): void {
@@ -28,26 +30,19 @@ export class ColorUpdateComponent implements OnInit {
     if (this.colorUpdateForm.valid) {
       let newColor = Object.assign({}, this.colorUpdateForm.value);
       newColor.id = this.currentColor.id;
+
       if (newColor.name == this.currentColor.name) {
         this.toastrService.error("Renk adı eskisiyle aynı", "Güncelleme yapılmadı");
         return;
-      } else {
-        this.colorService.update(newColor).subscribe(response => {
-          this.toastrService.success(this.currentColor.name + ", " + newColor.name + " şeklinde güncellendi", "Güncelleme başarılı");
-          this.closeColorUpdateModal();
-        }, errorResponse => {
-          //Back-end Validation Errors
-          if (errorResponse.error.ValidationErrors && errorResponse.error.ValidationErrors.length > 0) {
-            for (let i = 0; i < errorResponse.error.ValidationErrors.length; i++) {
-              this.toastrService.error(errorResponse.error.ValidationErrors[i].ErrorMessage, "Doğrulama hatası")
-            }
-          }
-          //Back-end Validation ok but other errors  
-          else {
-            this.toastrService.error(errorResponse.error.message, "Güncelleme başarısız");
-          }
-        })
       }
+
+      this.colorService.update(newColor).subscribe(() => {
+        this.toastrService.success(this.currentColor.name + ", " + newColor.name + " şeklinde güncellendi", "Güncelleme başarılı");
+        this.closeColorUpdateModal();
+      }, errorResponse => {
+        this.errorService.showBackendError(errorResponse, "Renk güncelleme başarısız");
+      })
+
     } else {
       this.toastrService.error("Renk adı 2-50 karakter arasında olmalıdır", "Form geçersiz");
       this.colorUpdateForm.reset();

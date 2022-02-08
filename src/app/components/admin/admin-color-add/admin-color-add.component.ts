@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ColorService } from 'src/app/services/color.service';
+import { ErrorServiceService } from 'src/app/services/error-service.service';
 
 @Component({
   selector: 'app-color-add',
@@ -15,7 +16,8 @@ export class ColorAddComponent implements OnInit {
     private colorAddModal: MatDialogRef<ColorAddComponent>,
     private formBuilder: FormBuilder,
     private colorService: ColorService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private errorService: ErrorServiceService
   ) { }
 
   ngOnInit(): void {
@@ -35,20 +37,11 @@ export class ColorAddComponent implements OnInit {
   add() {
     if (this.colorAddForm.valid) {
       let colorModel = Object.assign({}, this.colorAddForm.value);
-      this.colorService.add(colorModel).subscribe(response => {
+      this.colorService.add(colorModel).subscribe(() => {
         this.toastrService.success(colorModel.name, "Renk başarıyla eklendi");
         this.closeColorAddModal();
-      }, responseError => {
-        //Back-end Validation Errors
-        if (responseError.error.ValidationErrors && responseError.error.ValidationErrors.length > 0) {
-          for (let i = 0; i < responseError.error.ValidationErrors.length; i++) {
-            this.toastrService.error(responseError.error.ValidationErrors[i].ErrorMessage, "Doğrulama hatası")
-          }
-        }
-        //Back-end Validation ok but other errors
-        else {
-          this.toastrService.error(responseError.error.message, "Renk eklenemedi")
-        }
+      }, errorResponse => {
+        this.errorService.showBackendError(errorResponse, "Renk eklenemedi");
       })
     } else {
       this.toastrService.error("Renk adı 2-50 karakter arasında olmalıdır", "Geçersiz form");

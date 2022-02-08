@@ -5,13 +5,16 @@ import { CartItem } from '../models/entities/carItem';
 import { ErrorResult } from '../models/results/errorResult';
 import { Result } from '../models/results/result';
 import { SuccessResult } from '../models/results/successResult';
+import { DateTimeService } from './date-time.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  constructor() { }
+  constructor(
+    private dateTimeService: DateTimeService
+  ) { }
 
   addToCart(car: Car, rentDate: Date, returnDate: Date): Result {
     let item = CartItems.find(c => c.car.id === car.id);
@@ -38,11 +41,30 @@ export class CartService {
 
   clearCart(): Result {
     CartItems.length = 0;
-    if (CartItems.length === 0) {      
+    if (CartItems.length === 0) {
       return new SuccessResult("Sepet temizlendi");
     } else {
       return new ErrorResult("Sepet temizlenirken bir hata oluştu");
     }
+  }
+
+  calculateTotalAmount(): number {
+    let totalAmount: number = 0;
+    CartItems.forEach(cartItem => {
+      let rentalPeriod = this.dateTimeService.getRentalPeriod(cartItem.rentDate, cartItem.returnDate)
+      let amount = cartItem.car.dailyPrice * rentalPeriod
+      totalAmount += amount;
+    });
+    return totalAmount;
+  }
+
+  calculateTotalRentalPeriod(cartItems: CartItem[]): number {
+    let totalRentalPeriod: number = 0
+    cartItems.forEach(cartItem => {
+      let rentalPeriod: number = this.dateTimeService.getRentalPeriod(cartItem.rentDate, cartItem.returnDate);
+      totalRentalPeriod += rentalPeriod;
+    });
+    return totalRentalPeriod;
   }
 
   listOfCart(): CartItem[] {

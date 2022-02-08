@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { BrandService } from 'src/app/services/brand.service';
+import { ErrorServiceService } from 'src/app/services/error-service.service';
 
 @Component({
   selector: 'app-brand-add',
@@ -15,7 +16,8 @@ export class BrandAddComponent implements OnInit {
     private formBuilder: FormBuilder,
     private brandService: BrandService,
     private toastrService: ToastrService,
-    private brandAddModal: MatDialogRef<BrandAddComponent>) { }
+    private brandAddModal: MatDialogRef<BrandAddComponent>,
+    private errorService: ErrorServiceService) { }
 
   ngOnInit(): void {
     this.createBrandAddForm();
@@ -34,20 +36,11 @@ export class BrandAddComponent implements OnInit {
   add() {
     if (this.brandAddForm.valid) {
       let brandModel = Object.assign({}, this.brandAddForm.value);
-      this.brandService.add(brandModel).subscribe(response => {
+      this.brandService.add(brandModel).subscribe(() => {
         this.toastrService.success(brandModel.name, "Marka başarıyla eklendi");
         this.closeBrandAddModal();
-      }, responseError => {
-        //Back-end Validation Errors
-        if (responseError.error.ValidationErrors && responseError.error.ValidationErrors.length > 0) {
-          for (let i = 0; i < responseError.error.ValidationErrors.length; i++) {
-            this.toastrService.error(responseError.error.ValidationErrors[i].ErrorMessage, "Doğrulama hatası")
-          }
-        }
-        //Back-end Validation ok but other errors
-        else {
-          this.toastrService.error(responseError.error.message, "Marka eklenemedi")
-        }
+      }, errorResponse => {
+        this.errorService.showBackendError(errorResponse, "Marka eklenemedi");
       })
     } else {
       this.toastrService.error("Marka adı 2-50 karakter arasında olmalıdır", "Geçersiz form");

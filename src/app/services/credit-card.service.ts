@@ -28,4 +28,19 @@ export class CreditCardService {
     let newPath = this.apiUrl + 'creditcards/deletecreditcard'
     return this.httpClient.post<ListResponseModel<CreditCard>>(newPath, customerCreditCardModel);
   }
+
+  getCreditCardLogoSource(cardNumber: string) {
+    if (cardNumber == null) {
+      return '';
+    } else {
+      let startNum = cardNumber.charAt(0)
+      if (startNum == '4') {
+        return '/assets/images/visa.png'
+      } else if (startNum == '5') {
+        return '/assets/images/master-card.png'
+      } else {
+        return '';
+      }
+    }
+  }
 }

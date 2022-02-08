@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Brand } from 'src/app/models/entities/brand';
 import { BrandService } from 'src/app/services/brand.service';
+import { ErrorServiceService } from 'src/app/services/error-service.service';
 
 @Component({
   selector: 'app-brand-update',
@@ -18,7 +19,8 @@ export class BrandUpdateComponent implements OnInit {
     private brandService: BrandService,
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
-    private updateModal: MatDialogRef<BrandUpdateComponent>
+    private updateModal: MatDialogRef<BrandUpdateComponent>,
+    private errorService: ErrorServiceService
   ) { }
 
   ngOnInit(): void {
@@ -29,26 +31,19 @@ export class BrandUpdateComponent implements OnInit {
     if (this.brandUpdateForm.valid) {
       let newBrand = Object.assign({}, this.brandUpdateForm.value);
       newBrand.id = this.currentBrand.id;
+
       if (newBrand.name == this.currentBrand.name) {
         this.toastrService.error("Marka adı eskisiyle aynı", "Güncelleme yapılmadı");
         return;
-      } else {
-        this.brandService.update(newBrand).subscribe(response => {
-          this.toastrService.success(this.currentBrand.name + ", " + newBrand.name + " şeklinde güncellendi", "Güncelleme başarılı");
-          this.closeUpdateModal();
-        }, errorResponse => {
-          //Back-end Validation Errors
-          if (errorResponse.error.ValidationErrors && errorResponse.error.ValidationErrors.length > 0) {
-            for (let i = 0; i < errorResponse.error.ValidationErrors.length; i++) {
-              this.toastrService.error(errorResponse.error.ValidationErrors[i].ErrorMessage, "Doğrulama hatası")
-            }
-          }
-          //Back-end Validation ok but other errors  
-          else {
-            this.toastrService.error(errorResponse.error.message, "Güncelleme başarısız");
-          }
-        })
       }
+
+      this.brandService.update(newBrand).subscribe(() => {
+        this.toastrService.success(this.currentBrand.name + ", " + newBrand.name + " şeklinde güncellendi", "Güncelleme başarılı");
+        this.closeUpdateModal();
+      }, errorResponse => {
+        this.errorService.showBackendError(errorResponse, "Marka güncelleme başarısız");
+      })
+
     } else {
       this.toastrService.error("Marka adı 2-50 karakter arasında olmalıdır", "Form geçersiz");
       this.brandUpdateForm.reset();

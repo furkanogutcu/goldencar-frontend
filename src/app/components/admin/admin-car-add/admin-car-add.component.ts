@@ -9,6 +9,7 @@ import { BrandService } from 'src/app/services/brand.service';
 import { CarImagesService } from 'src/app/services/car-images.service';
 import { CarService } from 'src/app/services/car.service';
 import { ColorService } from 'src/app/services/color.service';
+import { ErrorServiceService } from 'src/app/services/error-service.service';
 
 @Component({
   selector: 'app-car-add',
@@ -31,7 +32,8 @@ export class CarAddComponent implements OnInit {
     private colorService: ColorService,
     private carImagesService: CarImagesService,
     private toastrService: ToastrService,
-    private carService: CarService
+    private carService: CarService,
+    private errorService: ErrorServiceService
   ) { }
 
   ngOnInit(): void {
@@ -73,17 +75,8 @@ export class CarAddComponent implements OnInit {
 
           }
         }
-      }, carAddFailResponse => {
-        //Back-end Validation Errors
-        if (carAddFailResponse.error.ValidationErrors && carAddFailResponse.error.ValidationErrors.length > 0) {
-          for (let i = 0; i < carAddFailResponse.error.ValidationErrors.length; i++) {
-            this.toastrService.error(carAddFailResponse.error.ValidationErrors[i].ErrorMessage, "Doğrulama hatası")
-          }
-        }
-        //Back-end Validation ok but other errors
-        else {
-          this.toastrService.error(carAddFailResponse.error.message, "Araç eklenemedi")
-        }
+      }, errorResponse => {
+        this.errorService.showBackendError(errorResponse, "Araç eklenemedi");
       })
     }
   }

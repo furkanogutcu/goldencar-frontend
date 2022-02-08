@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
+import { ErrorServiceService } from 'src/app/services/error-service.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ConfirmedValidator } from 'src/app/validators/confirmed.validator';
 
@@ -21,7 +22,8 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private toastrService: ToastrService,
     private localStorageService: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private errorService:ErrorServiceService
   ) { }
 
   ngOnInit(): void {
@@ -53,16 +55,7 @@ export class RegisterComponent implements OnInit {
         this.router.navigate([""]);
         this.toastrService.success("İşlem başarılı", "Giriş yapıldı");
       }, errorResponse => {
-        //Back-end Validation Errors
-        if (errorResponse.error.ValidationErrors && errorResponse.error.ValidationErrors.length > 0) {
-          for (let i = 0; i < errorResponse.error.ValidationErrors.length; i++) {
-            this.toastrService.error(errorResponse.error.ValidationErrors[i].ErrorMessage, "Doğrulama hatası")
-          }
-        }
-        //Back-end Validation ok but other errors
-        else {
-          this.toastrService.error(errorResponse.error.message, "Kayıt başarısız");
-        }
+        this.errorService.showBackendError(errorResponse, "Kayıt başarısız");
       })
     } else {
       this.toastrService.error("Bilgilerinizden bazıları doğrulanamadı", "Formunuz hatalı");

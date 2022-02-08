@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { UserForLogin } from 'src/app/models/auth/userForLogin';
 import { User } from 'src/app/models/entities/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { ErrorServiceService } from 'src/app/services/error-service.service';
 import { UserService } from 'src/app/services/user.service';
 import { ConfirmedValidator } from 'src/app/validators/confirmed.validator';
 
@@ -25,7 +26,8 @@ export class ProfileComponent implements OnInit {
     private toastrService: ToastrService,
     private authService: AuthService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private errorService: ErrorServiceService
   ) { }
 
   ngOnInit(): void {
@@ -59,20 +61,11 @@ export class ProfileComponent implements OnInit {
       let user: User = Object.assign({}, this.updateProfileForm.value);
       user.email = this.currentUser.email;
       user.id = String(this.currentUser.id);
-      this.userService.updateProfile(user).subscribe((successResponse) => {
+      this.userService.updateProfile(user).subscribe(() => {
         this.logOutAndGoLoginPage();
         this.toastrService.success("Lütfen tekrar giriş yapınız", "Profiliniz başarıyla güncellendi");
       }, errorResponse => {
-        //Back-end Validation Errors
-        if (errorResponse.error.ValidationErrors && errorResponse.error.ValidationErrors.length > 0) {
-          for (let i = 0; i < errorResponse.error.ValidationErrors.length; i++) {
-            this.toastrService.error(errorResponse.error.ValidationErrors[i].ErrorMessage, "Doğrulama hatası")
-          }
-        }
-        //Back-end Validation ok but other errors
-        else {
-          this.toastrService.error(errorResponse.error.message, "Profil güncellenemedi")
-        }
+        this.errorService.showBackendError(errorResponse, "Profil güncellenemedi");
       })
     } else {
       this.toastrService.error("Girilen bilgilerden en az birisi hatalı", "Hatalı bilgiler")
@@ -84,20 +77,11 @@ export class ProfileComponent implements OnInit {
       let changePasswordModel = Object.assign({}, this.changePasswordForm.value);
       delete changePasswordModel["confirmNewPassword"]
       changePasswordModel.email = this.currentUser.email;
-      this.authService.changePassword(changePasswordModel).subscribe((successResponse) => {
+      this.authService.changePassword(changePasswordModel).subscribe(() => {
         this.logOutAndGoLoginPage();
         this.toastrService.success("Lütfen tekrar giriş yapınız", "Şifreniz başarıyla güncellendi");
       }, errorResponse => {
-        //Back-end Validation Errors
-        if (errorResponse.error.ValidationErrors && errorResponse.error.ValidationErrors.length > 0) {
-          for (let i = 0; i < errorResponse.error.ValidationErrors.length; i++) {
-            this.toastrService.error(errorResponse.error.ValidationErrors[i].ErrorMessage, "Doğrulama hatası")
-          }
-        }
-        //Back-end Validation ok but other errors
-        else {
-          this.toastrService.error(errorResponse.error.message, "Profil güncellenemedi")
-        }
+        this.errorService.showBackendError(errorResponse, "Şifre güncellenemedi");
       });
     } else {
       this.toastrService.error("Girilen şifrelerden en az birisi geçersiz", "Hatalı bilgiler")

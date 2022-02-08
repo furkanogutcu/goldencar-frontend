@@ -1,3 +1,4 @@
+import { CartService } from './../../services/cart.service';
 import { PaymentOutputModel } from '../../models/paymentModels/payment-output-model';
 import { RentPaymentRequest } from '../../models/paymentModels/rent-payment-request';
 import { AuthService } from './../../services/auth.service';
@@ -39,7 +40,8 @@ export class PaymentComponent implements OnInit {
     private toastrService: ToastrService,
     private dateTimeService: DateTimeService,
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private cartService:CartService
   ) { }
 
   ngOnInit(): void {
@@ -104,13 +106,7 @@ export class PaymentComponent implements OnInit {
   }
 
   calculateTotalAmount(): number {
-    let totalAmount: number = 0;
-    this.cartItems.forEach(cartItem => {
-      let rentalPeriod = this.getRentalPeriod(cartItem.rentDate, cartItem.returnDate)
-      let amount = cartItem.car.dailyPrice * rentalPeriod
-      totalAmount += amount;
-    });
-    return totalAmount;
+    return this.cartService.calculateTotalAmount();
   }
 
   getRentalPeriod(rentDate: Date, returnDate: Date): number {
@@ -167,18 +163,7 @@ export class PaymentComponent implements OnInit {
   }
 
   getCreditCardLogoSource(cardNumber: string) {
-    if (cardNumber == null) {
-      return '';
-    } else {
-      let startNum = cardNumber.charAt(0)
-      if (startNum == '4') {
-        return '/assets/images/visa.png'
-      } else if (startNum == '5') {
-        return '/assets/images/master-card.png'
-      } else {
-        return '';
-      }
-    }
+    return this.creditCardService.getCreditCardLogoSource(cardNumber);
   }
 
   increaseSelectedCreditCardIndex() {

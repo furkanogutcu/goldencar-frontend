@@ -94,22 +94,11 @@ export class CartComponent implements OnInit {
   }
 
   calculateTotalAmount(): number {
-    let totalAmount: number = 0;
-    this.cartItems.forEach(cartItem => {
-      let rentalPeriod = this.getRentalPeriod(cartItem.rentDate, cartItem.returnDate)
-      let amount = cartItem.car.dailyPrice * rentalPeriod
-      totalAmount += amount;
-    });
-    return totalAmount;
+    return this.cartService.calculateTotalAmount();
   }
 
   calculateTotalRentalPeriod(): number {
-    let totalRentalPeriod: number = 0
-    this.cartItems.forEach(cartItem => {
-      let rentalPeriod: number = this.getRentalPeriod(cartItem.rentDate, cartItem.returnDate);
-      totalRentalPeriod += rentalPeriod;
-    });
-    return totalRentalPeriod;
+    return this.cartService.calculateTotalRentalPeriod(this.cartItems);
   }
 
   getRentalPeriod(rentDate: Date, returnDate: Date): number {
@@ -126,11 +115,7 @@ export class CartComponent implements OnInit {
 
   removeFromCart(car: Car) {
     let result: Result = this.cartService.removeFromCart(car);
-    if (result.success) {
-      this.toastrService.success(result.message, car.brandName + " " + car.modelName)
-    } else {
-      this.toastrService.error(result.message, car.brandName + " " + car.modelName)
-    }
+    result.success ? this.toastrService.success(result.message, `${car.brandName} ${car.modelName}`) : this.toastrService.error(result.message, `${car.brandName} ${car.modelName}`);
   }
 
   getCart() {

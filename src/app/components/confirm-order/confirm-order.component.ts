@@ -9,6 +9,7 @@ import { CartItem } from './../../models/entities/carItem';
 import { ConfirmOrderInputModel } from './../../models/paymentModels/confirm-order-input-model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CreditCard } from 'src/app/models/entities/credit-card';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-confirm-order',
@@ -28,30 +29,23 @@ export class ConfirmOrderComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private rentalService: RentalService,
     private creditCardService: CreditCardService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
-    
+
   }
 
   rent() {
     this.spinner.show();
     this.rentalService.rent(this.confirmOrderInputModel.rentPaymentRequest).subscribe(response => {
       if (this.confirmOrderInputModel.isCreditCardSaving === true) {
-        this.saveCreditCard(
-          this.confirmOrderInputModel.rentPaymentRequest.cardNumber,
-          this.confirmOrderInputModel.rentPaymentRequest.expireYear,
-          this.confirmOrderInputModel.rentPaymentRequest.expireMonth,
-          this.confirmOrderInputModel.rentPaymentRequest.cvc,
-          this.confirmOrderInputModel.rentPaymentRequest.cardHolderFullName,
-          this.confirmOrderInputModel.rentPaymentRequest.customerId).then((result) => {
-            if (result === true) {
-              this.toastrService.success("Kredi kartı başarıyla kaydedildi", "Kredi kartı kaydedildi");
-            } else {
-              this.toastrService.warning("Kredi kartı kaydedilemedi", "Kredi kartı kaydedilemedi");
-            }
-          });
+        this.saveCreditCard().then((result) => {
+          result === true
+            ? this.toastrService.success("Kredi kartı başarıyla kaydedildi", "Kredi kartı kaydedildi")
+            : this.toastrService.warning("Kredi kartı kaydedilemedi", "Kredi kartı kaydedilemedi");
+        });
       }
       this.toastrService.success(response.message, "Ödeme başarılı")
 
@@ -72,18 +66,19 @@ export class ConfirmOrderComponent implements OnInit {
       });
   }
 
-  saveCreditCard(cardNumber: string, expireYear: string, expireMonth: string, cvc: string, cardHolderFullName: string, customerId: number): Promise<boolean> {
+  saveCreditCard(): Promise<boolean> {
     return new Promise<boolean>((methodResolve) => {
       let creditCard = new CreditCard;
-      creditCard.cardNumber = cardNumber;
-      creditCard.expireYear = expireYear;
-      creditCard.expireMonth = expireMonth;
-      creditCard.cvc = cvc;
-      creditCard.cardHolderFullName = cardHolderFullName;
+      let rentPaymentRequest = this.confirmOrderInputModel.rentPaymentRequest;
+      creditCard.cardNumber = rentPaymentRequest.cardNumber;
+      creditCard.expireYear = rentPaymentRequest.expireYear;
+      creditCard.expireMonth = rentPaymentRequest.expireMonth;
+      creditCard.cvc = rentPaymentRequest.cvc;
+      creditCard.cardHolderFullName = rentPaymentRequest.cardHolderFullName;
 
       let customerCreditCardModel = {
         creditCard: creditCard,
-        customerId: customerId
+        customerId: rentPaymentRequest.customerId
       }
       this.creditCardService.saveCreditCard(customerCreditCardModel).subscribe(() => {
         methodResolve(true);
@@ -94,18 +89,7 @@ export class ConfirmOrderComponent implements OnInit {
   }
 
   getCreditCardLogoSource(cardNumber: string) {
-    if (cardNumber == null) {
-      return '';
-    } else {
-      let startNum = cardNumber.charAt(0)
-      if (startNum == '4') {
-        return '/assets/images/visa.png'
-      } else if (startNum == '5') {
-        return '/assets/images/master-card.png'
-      } else {
-        return '';
-      }
-    }
+    return this.creditCardService.getCreditCardLogoSource(cardNumber);
   }
 
   calculateTotalAmount(cartItems: CartItem[]): number {
@@ -119,12 +103,7 @@ export class ConfirmOrderComponent implements OnInit {
   }
 
   calculateTotalRentalPeriod(cartItems: CartItem[]): number {
-    let totalRentalPeriod: number = 0
-    cartItems.forEach(cartItem => {
-      let rentalPeriod: number = this.getRentalPeriod(cartItem.rentDate, cartItem.returnDate);
-      totalRentalPeriod += rentalPeriod;
-    });
-    return totalRentalPeriod;
+    return this.cartService.calculateTotalRentalPeriod(cartItems);
   }
 
   getRentalPeriod(rentDate: Date, returnDate: Date): number {

@@ -270,11 +270,7 @@ export class CarUpdateComponent implements OnInit {
   private checkFileMimeType(file: any): Promise<boolean> {
     return new Promise<boolean>((methodResolve) => {
       var mimeType = file.type;
-      if (mimeType.match(/image\/*/) != null) {
-        methodResolve(true);
-      } else {
-        methodResolve(false);
-      }
+      methodResolve(mimeType.match(/image\/*/) != null);
     })
   }
 

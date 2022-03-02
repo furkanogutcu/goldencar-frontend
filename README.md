@@ -8,10 +8,10 @@ GoldenCar is a car rental web application. It allows users to view, review and r
 ## Contents
 - [Pages](#pages)
 - [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Associated Project](#associated-project)
 - [Getting Started](#getting-started)
   * [Installation](#installation)
+- [Tech Stack](#tech-stack)
+- [Associated Project](#associated-project)
 - [Contributions](#contributions)
 
 ## Pages
@@ -228,23 +228,6 @@ GoldenCar is a car rental web application. It allows users to view, review and r
 + Users can review and confirm the order while completing the order
 + When the user confirms the order, it is checked in the backend whether they have enough findex points to rent that vehicle. If the user's findex score is sufficient, he can rent the vehicle
 
-## Tech Stack
-| Technology / Library | Version |
-| ------------- | ------------- |
-| Angular | 12.2.4 |
-| Angular Material | 12.2.6 |
-| Bootstrap | 5.1.0 |
-| Jquery | 3.6.0 |
-| rxjs | 6.6.0 |
-| auth0/angular-jwt | 5.0.2 |
-| ngx-mask | 12.0.0 |
-| ngx-spinner | 12.0.0 |
-| ngx-toastr | 14.1.3 |
-
-## Associated Project
-
-The backend of this project [GoldenCar-backend](https://github.com/furkanogutcu/GoldenCar)
-
 ## Getting Started
 
 The project needs a backend to run properly. So first of all, review and install [GoldenCar-backend](https://github.com/furkanogutcu/GoldenCar).
@@ -263,6 +246,23 @@ The project needs a backend to run properly. So first of all, review and install
    ```sh
    ng serve
    ```
+
+## Tech Stack
+| Technology / Library | Version |
+| ------------- | ------------- |
+| Angular | 12.2.4 |
+| Angular Material | 12.2.6 |
+| Bootstrap | 5.1.0 |
+| Jquery | 3.6.0 |
+| rxjs | 6.6.0 |
+| auth0/angular-jwt | 5.0.2 |
+| ngx-mask | 12.0.0 |
+| ngx-spinner | 12.0.0 |
+| ngx-toastr | 14.1.3 |
+
+## Associated Project
+
+The backend of this project [GoldenCar-backend](https://github.com/furkanogutcu/GoldenCar)
 
 ## Contributions
 

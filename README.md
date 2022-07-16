@@ -242,7 +242,7 @@ The project needs a backend to run properly. So first of all, review and install
    ```sh
    npm install
    ```
-3. Publish locally
+3. Run
    ```sh
    ng serve
    ```
